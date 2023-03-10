@@ -11,8 +11,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: 123
       MONGO_INITDB_DATABASE: calendar
     volumes:
-      - ./docker/mongo/init/init.js:/docker-entrypoint-initdb.d/init.js
-      - ./docker/mongo/db/:/data/db
+      - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js
+      - mongoDB:/data/db
     networks:
       - network
   
@@ -30,3 +30,6 @@ services:
 networks:
   network:
     name: network
+
+volumes:
+  mongoDB:

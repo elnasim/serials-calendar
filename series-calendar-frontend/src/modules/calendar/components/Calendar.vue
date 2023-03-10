@@ -36,13 +36,14 @@
         v-for="day of calendarData"
         :key="day?.dayInfo.dayIndex"
         :dayData="day"
+        :isShowOnlyLastEpisodes="isShowOnlyLastEpisodes"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch } from "vue";
+import { watch } from "vue";
 import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import CalendarControl from "@/modules/calendar/components/CalendarControl.vue";
 import CalendarCell from "@/modules/calendar/components/CalendarCell.vue";
