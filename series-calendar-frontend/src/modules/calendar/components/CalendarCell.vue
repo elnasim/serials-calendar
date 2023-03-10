@@ -52,7 +52,7 @@
 
     <Popup v-model="isShowPopup">
       <div class="w-full max-width-[1000px] p-4">
-        <div v-for="episode of dayData.content" :key="episode._id">
+        <div v-for="episode of dayData?.content" :key="episode._id">
           <div>
             {{ episode.serial.title }} - {{ episode.season }} x
             {{ episode.episode_number }}
