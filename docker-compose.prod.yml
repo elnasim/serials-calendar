@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  mongo:
+    container_name: MongoDB
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 123
+      MONGO_INITDB_DATABASE: calendar
+    volumes:
+      - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js
+      - mongoDB:/data/db
+    networks:
+      - network
+  
+  nginx:
+    container_name: Nginx
+    image: nginx:stable
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/config.conf:/etc/nginx/conf.d/config.conf
+      - frontend-build:/app
+      - cdn:/app/files
+    networks:
+      - network
+
+  backend:
+    container_name: Backend
+    build:
+      dockerfile: Dockerfile
+      context: ./series-calendar-server
+    image: server
+    ports:
+      - "3000:3000"
+    volumes:
+      - cdn:/usr/src/app/files
+    depends_on:
+      - mongo
+    networks:
+      - network
+
+  front:
+    container_name: Frontend
+    build:
+      dockerfile: Dockerfile
+      context: ./series-calendar-frontend
+    image: frontend
+    volumes:
+      - frontend-build:/usr/src/app/dist
+    depends_on:
+      - backend
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+
+volumes:
+  frontend-build:
+  cdn:
+  mongoDB:
