@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Date, ObjectId } from 'mongoose';
+import { ObjectId } from 'mongoose';
 
 export class CreateEpisodeDto {
   @ApiProperty()
