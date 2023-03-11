@@ -24,6 +24,6 @@ export class ParserService {
 
     parser.parseEpisodesData();
 
-    this.episodesService.create(parser.getSerialId, parser.getEpisodes);
+    return this.episodesService.create(parser.getSerialId, parser.getEpisodes);
   }
 }

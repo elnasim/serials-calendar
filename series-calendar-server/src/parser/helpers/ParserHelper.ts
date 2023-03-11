@@ -48,11 +48,12 @@ export class ParserHelper {
 
       this._episodes.push({
         title: `Серия ${episode_number}`,
-        // @ts-ignore
-        date: new Date(date),
+        date:
+          date.slice(5) === '00-00' ? new Date('2099-01-01') : new Date(date),
         episode_number,
         season,
         serial: this._serialId,
+        is_last_season_episode: false,
       });
     }
   }

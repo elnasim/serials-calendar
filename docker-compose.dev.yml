@@ -5,14 +5,14 @@ services:
     container_name: mongoDB
     image: mongo
     ports:
-      - 27017:27017
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: 123
       MONGO_INITDB_DATABASE: calendar
     volumes:
       - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js
-      - mongoDB:/data/db
+      - mongoDB_dev:/data/db
     networks:
       - network
   
@@ -22,8 +22,8 @@ services:
     ports:
       - "9090:80"
     volumes:
-      - "./docker/nginx/config.conf:/etc/nginx/conf.d/config.conf"
-      - "./series-calendar-server/files:/app/files"
+      - ./docker/nginx/config.conf:/etc/nginx/conf.d/config.conf
+      - ./series-calendar-server/files:/app/files
     networks:
       - network
 
@@ -32,4 +32,4 @@ networks:
     name: network
 
 volumes:
-  mongoDB:
+  mongoDB_dev:
