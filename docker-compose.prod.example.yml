@@ -12,7 +12,7 @@ services:
       MONGO_INITDB_DATABASE: calendar
     volumes:
       - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js
-      - ./mongo/data/db:/data/db
+      - ./docker/mongo/data/db:/data/db
     networks:
       - network
 
