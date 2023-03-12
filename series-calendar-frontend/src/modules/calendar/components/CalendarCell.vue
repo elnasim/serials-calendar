@@ -90,6 +90,8 @@ const isCurrentDay = computed(() => {
 });
 
 function showPopup() {
-  isShowPopup.value = true;
+  if (props.dayData?.content && props.dayData?.content?.length > 0) {
+    isShowPopup.value = true;
+  }
 }
 </script>
