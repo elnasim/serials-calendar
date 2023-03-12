@@ -21,7 +21,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./series-calendar-server
-    image: server
     ports:
       - "3000:3000"
     volumes:
@@ -36,11 +35,12 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./series-calendar-frontend
-    image: frontend
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./docker/nginx/config.conf:/etc/nginx/conf.d/config.conf
+      - ./docker/nginx/ssl:/etc/ssl
       - cdn:/app/files
     depends_on:
       - backend
