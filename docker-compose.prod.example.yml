@@ -30,22 +30,27 @@ services:
     networks:
       - network
 
-  front:
-    container_name: Frontend
-    build:
-      dockerfile: Dockerfile
-      context: ./series-calendar-frontend
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./docker/nginx/config.conf:/etc/nginx/conf.d/config.conf
-      - ./docker/nginx/ssl:/etc/ssl
-      - cdn:/app/files
-    depends_on:
-      - backend
-    networks:
-      - network
+front:
+  container_name: Frontend
+  build:
+    dockerfile: Dockerfile
+    context: ./series-calendar-frontend
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - ./docker/nginx/config/conf.d/config.conf:/etc/nginx/conf.d/config.conf
+    - ./docker/nginx/config/nginxconfig.io/security.conf:/etc/nginx/nginxconfig.io/security.conf
+    - ./docker/nginx/config/nginxconfig.io/general.conf:/etc/nginx/nginxconfig.io/general.conf
+    - ./docker/nginx/config/nginxconfig.io/letsencrypt.conf:/etc/nginx/nginxconfig.io/letsencrypt.conf
+    - ./docker/nginx/config/nginxconfig.io/proxy.conf:/etc/nginx/nginxconfig.io/proxy.conf
+    - /etc/letsencrypt/live:/etc/letsencrypt/live
+    - /etc/letsencrypt/archive:/etc/letsencrypt/archive
+    - cdn:/app/cdn
+  depends_on:
+    - backend
+  networks:
+    - network
 
 networks:
   network:
