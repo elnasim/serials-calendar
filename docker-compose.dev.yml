@@ -22,7 +22,7 @@ services:
     ports:
       - "9090:80"
     volumes:
-      - ./docker/nginx/config.conf:/etc/nginx/conf.d/config.conf
+      - ./docker/nginx/config.dev.conf:/etc/nginx/conf.d/config.dev.conf
       - ./series-calendar-server/files:/app/files
     networks:
       - network
