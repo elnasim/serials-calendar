@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ISerialEpisodeWithSerialInfo, TDay } from "@/modules/calendar/types";
+import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
 
 defineProps<{
   dayData: { [title: string]: ISerialEpisodeWithSerialInfo[] };

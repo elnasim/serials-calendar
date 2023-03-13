@@ -52,7 +52,7 @@ import type { TDay } from "@/modules/calendar/types";
 import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import Popup from "@/modules/common/components/Popup.vue";
 import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
-import { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
+import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
