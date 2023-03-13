@@ -50,16 +50,8 @@
       </div>
     </div>
 
-    <Popup v-model="isShowPopup">
-      <div class="w-full max-width-[1000px] p-4">
-        <div v-for="episode of dayData?.content" :key="episode._id">
-          <div>
-            {{ episode.serial.title }} - {{ episode.season }} x
-            {{ episode.episode_number }}
-            {{ episode.title }}
-          </div>
-        </div>
-      </div>
+    <Popup v-model="isShowPopup" maxWidth="500px">
+      <CalendarCellPopup :dayData="dayData" />
     </Popup>
   </div>
 </template>
@@ -70,6 +62,7 @@ import dateHelper from "@/modules/common/helpers/DateHelper";
 import type { TDay } from "@/modules/calendar/types";
 import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import Popup from "@/modules/common/components/Popup.vue";
+import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
@@ -90,6 +83,8 @@ const isCurrentDay = computed(() => {
 });
 
 function showPopup() {
-  isShowPopup.value = true;
+  if (props.dayData?.content && props.dayData?.content?.length > 0) {
+    isShowPopup.value = true;
+  }
 }
 </script>

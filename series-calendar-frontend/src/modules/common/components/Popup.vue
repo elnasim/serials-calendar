@@ -3,7 +3,11 @@
     <div
       class="fixed inset-0 bg-color-1/95 p-2 flex justify-center items-center z-50"
     >
-      <div class="bg-color-5" ref="target">
+      <div
+        class="w-full rounded-md overflow-hidden"
+        :style="{ 'max-width': maxWidth }"
+        ref="target"
+      >
         <slot></slot>
       </div>
     </div>
@@ -14,7 +18,7 @@
 import { onClickOutside } from "@vueuse/core";
 import { ref, defineProps, defineEmits } from "vue";
 
-defineProps(["modelValue"]);
+defineProps(["modelValue", "maxWidth"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const target = ref(null);
