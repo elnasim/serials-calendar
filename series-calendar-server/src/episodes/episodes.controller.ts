@@ -44,6 +44,18 @@ export class EpisodesController {
     return this.episodesService.findAllByMonthAndYear(month, year);
   }
 
+  @Public()
+  @ApiOperation({
+    summary: 'Возвращает последние эпизоды сериалов по указанным месяцу и году',
+  })
+  @Get('findLastByMonthAndYear')
+  public findLastByMonthAndYear(
+    @Query('month') month: MonthsEnum,
+    @Query('year') year: number,
+  ) {
+    return this.episodesService.findLastByMonthAndYear(month, year);
+  }
+
   @ApiBody({ type: UpdateEpisodeDto })
   @ApiOperation({ summary: 'Обновляет эпизод по id' })
   @Patch(':id')

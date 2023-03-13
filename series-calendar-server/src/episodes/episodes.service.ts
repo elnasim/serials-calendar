@@ -49,6 +49,25 @@ export class EpisodesService {
       .populate('serial');
   }
 
+  public findLastByMonthAndYear(month: MonthsEnum, year: number) {
+    const dateGTE = new Date(year, +MonthsEnum[month], 1);
+    const dateLT = new Date(
+      +MonthsEnum[month] === 11 ? year + 1 : year,
+      +MonthsEnum[month] === 11 ? 1 : +MonthsEnum[month] + 1,
+      1,
+    );
+
+    return this.episodeModel
+      .find({
+        date: {
+          $gte: dateGTE,
+          $lt: dateLT,
+        },
+        is_last_season_episode: true,
+      })
+      .populate('serial');
+  }
+
   public updateOne(id: ObjectId, updateEpisodeDto: UpdateEpisodeDto) {
     return this.episodeModel.findByIdAndUpdate(id, updateEpisodeDto, {
       new: true,
