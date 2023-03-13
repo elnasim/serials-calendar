@@ -58,7 +58,6 @@ const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
 const props = defineProps<{
   dayData: TDay;
-  isShowOnlyLastEpisodes: boolean;
 }>();
 
 const isShowPopup = ref(false);

@@ -1,22 +1,28 @@
 <template>
-  <div class="container flex flex-wrap" v-if="calendarData">
-    <button
-      class="mx-auto max-w-[260px] w-full bg-color-4 rounded-md mb-4"
-      @click="toggleIsShowOnlyLastEpisodes"
+  <div class="container flex flex-wrap justify-center" v-if="calendarData">
+    <div
+      class="mb-4 flex items-center justify-center bg-color-3 p-1 rounded-md"
     >
-      {{
-        isShowOnlyLastEpisodes
-          ? "Показывать только последние эпизоды сезона"
-          : "Показывать все эпизоды"
-      }}
-    </button>
+      <button
+        @click="showAllEpisodes"
+        class="mx-auto max-w-[260px] w-full h-full rounded-md text-[white] p-1"
+        :class="{
+          'bg-color-2': showEpisodesType === EpisodesShowTypeEnum.ALL_EPISODES,
+        }"
+      >
+        Показывать все эпизоды
+      </button>
 
-    <button
-      @click="setCurrentUserDate"
-      class="mx-auto max-w-[260px] w-full bg-color-4 rounded-md mb-4"
-    >
-      На сегодня
-    </button>
+      <button
+        @click="showLastEpisodes"
+        class="mx-auto max-w-[260px] w-full h-full rounded-md text-[white] p-1"
+        :class="{
+          'bg-color-2': showEpisodesType === EpisodesShowTypeEnum.LAST_EPISODES,
+        }"
+      >
+        Показывать последние эпизоды
+      </button>
+    </div>
 
     <CalendarControl />
 
@@ -36,39 +42,36 @@
         v-for="day of calendarData"
         :key="day?.dayInfo.dayIndex"
         :dayData="day"
-        :isShowOnlyLastEpisodes="isShowOnlyLastEpisodes"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { watch } from "vue";
-import { useCalendar } from "@/modules/calendar/composable/useCalendar";
+import { watchEffect } from "vue";
+import {
+  EpisodesShowTypeEnum,
+  useCalendar,
+} from "@/modules/calendar/composable/useCalendar";
 import CalendarControl from "@/modules/calendar/components/CalendarControl.vue";
 import CalendarCell from "@/modules/calendar/components/CalendarCell.vue";
 import CalendarHelper from "@/modules/calendar/helpers/CalendarHelper";
 
 const {
   calendarData,
-  toggleIsShowOnlyLastEpisodes,
-  isShowOnlyLastEpisodes,
-  setCurrentUserDate,
-  currentCalendarMonth,
   fetchCalendarData,
   currentCalendarDate,
+  showEpisodesType,
+  showLastEpisodes,
+  showAllEpisodes,
 } = useCalendar();
 
-watch(
-  () => currentCalendarMonth.value,
-  async () => {
-    const data = await fetchCalendarData();
+watchEffect(async () => {
+  const data = await fetchCalendarData();
 
-    if (data) {
-      const calendar = new CalendarHelper(currentCalendarDate.value, data);
-      calendarData.value = calendar.getCalendar();
-    }
-  },
-  { immediate: true }
-);
+  if (data) {
+    const calendar = new CalendarHelper(currentCalendarDate.value, data);
+    calendarData.value = calendar.getCalendar();
+  }
+});
 </script>
