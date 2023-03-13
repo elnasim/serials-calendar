@@ -17,20 +17,13 @@
         v-if="dayData?.content && dayData.content.length > 0"
       >
         <div
-          v-for="item of dayData?.content"
-          :key="item._id"
-          :class="
-            !isShowOnlyLastEpisodes || item.is_last_season_episode === true
-              ? 'w-full h-full'
-              : ''
-          "
+          v-for="(serial, title) of serializeData"
+          :key="title"
+          class="h-full"
         >
           <div
-            v-if="
-              !isShowOnlyLastEpisodes || item.is_last_season_episode === true
-            "
             class="w-full h-full bg-cover bg-repeat flex items-end p-1 relative mb-0.5 last:mb-0"
-            :style="`background-image: url(${VITE_CDN_URL}/serials/${item.serial._id}.jpg);`"
+            :style="`background-image: url(${VITE_CDN_URL}/serials/${serial[0].serial._id}.jpg);`"
           >
             <div
               class="absolute inset-0 flex items-end p-0.5 bg-gradient-to-t from-color-1 to-transparent"
@@ -38,11 +31,7 @@
               <div
                 class="flex items-center overflow-hidden truncate text-color-5 text-xs rounded-md pl-1 pr-1"
               >
-                <span
-                  v-if="item.serial?.imdb && item.serial?.imdb > 0"
-                  class="min-w-[6px] w-1.5 h-1.5 rounded-full inline-block mr-1"
-                ></span>
-                <span class="truncate">{{ item.serial?.title }}</span>
+                <span class="truncate">{{ title }}</span>
               </div>
             </div>
           </div>
@@ -50,16 +39,8 @@
       </div>
     </div>
 
-    <Popup v-model="isShowPopup">
-      <div class="w-full max-width-[1000px] p-4">
-        <div v-for="episode of dayData?.content" :key="episode._id">
-          <div>
-            {{ episode.serial.title }} - {{ episode.season }} x
-            {{ episode.episode_number }}
-            {{ episode.title }}
-          </div>
-        </div>
-      </div>
+    <Popup v-model="isShowPopup" maxWidth="500px">
+      <CalendarCellPopup :dayData="serializeData" />
     </Popup>
   </div>
 </template>
@@ -70,12 +51,13 @@ import dateHelper from "@/modules/common/helpers/DateHelper";
 import type { TDay } from "@/modules/calendar/types";
 import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import Popup from "@/modules/common/components/Popup.vue";
+import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
+import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
 const props = defineProps<{
   dayData: TDay;
-  isShowOnlyLastEpisodes: boolean;
 }>();
 
 const isShowPopup = ref(false);
@@ -90,6 +72,24 @@ const isCurrentDay = computed(() => {
 });
 
 function showPopup() {
-  isShowPopup.value = true;
+  if (props.dayData?.content && props.dayData?.content?.length > 0) {
+    isShowPopup.value = true;
+  }
 }
+
+const serializeData = computed(() => {
+  const obj: { [title: string]: ISerialEpisodeWithSerialInfo[] } = {};
+
+  props.dayData?.content?.forEach((el) => {
+    const serialId = el.serial.title;
+
+    if (!obj[serialId]) {
+      obj[serialId] = [];
+    }
+
+    obj[serialId].push(el);
+  });
+
+  return obj;
+});
 </script>

@@ -10,8 +10,16 @@ import type {
 } from "@/modules/calendar/types";
 import type { TCalendar } from "@/modules/calendar/types";
 
+export enum EpisodesShowTypeEnum {
+  "ALL_EPISODES" = "ALL_EPISODES",
+  "LAST_EPISODES" = "LAST_EPISODES",
+}
+
 export function useCalendar() {
   const calendarData = ref<TCalendar>();
+  const showEpisodesType = ref<EpisodesShowTypeEnum>(
+    EpisodesShowTypeEnum.ALL_EPISODES
+  );
 
   const currentCalendarMonth = computed((): MonthsEnum => {
     return router.currentRoute.value.query.month as MonthsEnum;
@@ -30,16 +38,26 @@ export function useCalendar() {
   });
 
   const userDate = new Date();
-  const isShowOnlyLastEpisodes = ref(false);
 
   async function fetchCalendarData(): Promise<
     ISerialEpisodeWithSerialInfo[] | null
   > {
     try {
-      return await calendarService.getSerialsByMonthAndYear(
-        currentCalendarMonth.value,
-        currentCalendarYear.value
-      );
+      if (showEpisodesType.value === EpisodesShowTypeEnum.ALL_EPISODES) {
+        return await calendarService.getEpisodesByMonthAndYear(
+          currentCalendarMonth.value,
+          currentCalendarYear.value
+        );
+      }
+
+      if (showEpisodesType.value === EpisodesShowTypeEnum.LAST_EPISODES) {
+        return await calendarService.getLastEpisodesByMonthAndYear(
+          currentCalendarMonth.value,
+          currentCalendarYear.value
+        );
+      }
+
+      return null;
     } catch (error) {
       console.log("-->", error);
       return null;
@@ -73,10 +91,6 @@ export function useCalendar() {
     );
   }
 
-  function toggleIsShowOnlyLastEpisodes() {
-    isShowOnlyLastEpisodes.value = !isShowOnlyLastEpisodes.value;
-  }
-
   function setCurrentUserDate() {
     return router.push(
       Routes.calendarPageWithQueryParams(
@@ -86,17 +100,26 @@ export function useCalendar() {
     );
   }
 
+  function showAllEpisodes() {
+    showEpisodesType.value = EpisodesShowTypeEnum.ALL_EPISODES;
+  }
+
+  function showLastEpisodes() {
+    showEpisodesType.value = EpisodesShowTypeEnum.LAST_EPISODES;
+  }
+
   return {
     calendarData,
     prevMonth,
     nextMonth,
-    isShowOnlyLastEpisodes,
     userDate,
     currentCalendarMonth,
     currentCalendarYear,
-    toggleIsShowOnlyLastEpisodes,
     setCurrentUserDate,
     fetchCalendarData,
     currentCalendarDate,
+    showEpisodesType,
+    showAllEpisodes,
+    showLastEpisodes,
   };
 }
