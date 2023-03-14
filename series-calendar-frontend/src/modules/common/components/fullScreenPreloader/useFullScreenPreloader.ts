@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-const isShow = ref(true);
+const isShow = ref(false);
 export function useFullScreenPreloader() {
   function show() {
     isShow.value = true;
