@@ -1,5 +1,5 @@
 <template>
-  <div class="h-36 p-1" @click="showPopup">
+  <div class="p-1" @click="showPopup">
     <div
       class="w-full h-full relative bg-color-2 rounded-2xl overflow-hidden"
       :class="props.dayData.content?.length && 'cursor-pointer'"

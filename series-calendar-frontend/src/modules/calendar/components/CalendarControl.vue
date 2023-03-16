@@ -1,10 +1,10 @@
 <template>
   <div class="w-full flex justify-center items-center mb-12">
     <button
-      class="outline-none bg-color-5 text-color-1 rounded-full w-8 h-8 text-lg cursor-pointer select-none"
+      class="flex justify-center items-center bg-color-2 text-color-1 rounded-full w-[40px] min-w-[40px] h-[40px] cursor-pointer"
       @click="prevMonth"
     >
-      ←
+      <span class="material-symbols-rounded text-[white]">arrow_back</span>
     </button>
 
     <button
@@ -15,10 +15,10 @@
     </button>
 
     <button
-      class="outline-none bg-color-5 text-color-1 rounded-full w-8 h-8 text-lg cursor-pointer select-none"
+      class="flex justify-center items-center bg-color-2 text-color-1 rounded-full w-[40px] min-w-[40px] h-[40px] cursor-pointer"
       @click="nextMonth"
     >
-      →
+      <span class="material-symbols-rounded text-[white]">arrow_forward</span>
     </button>
   </div>
 </template>

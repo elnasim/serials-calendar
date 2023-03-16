@@ -1,4 +1,8 @@
-@import url('./tailwind.scss');
+@import url("./tailwind.scss");
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 
 .inset-center {
   position: absolute;
