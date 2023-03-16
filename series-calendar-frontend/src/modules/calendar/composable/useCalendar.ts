@@ -15,11 +15,14 @@ export enum EpisodesShowTypeEnum {
   "LAST_EPISODES" = "LAST_EPISODES",
 }
 
+const showEpisodesType = ref<EpisodesShowTypeEnum>(
+  EpisodesShowTypeEnum.ALL_EPISODES
+);
+
+const isExpandCalendar = ref(false);
+
 export function useCalendar() {
   const calendarData = ref<TCalendar>();
-  const showEpisodesType = ref<EpisodesShowTypeEnum>(
-    EpisodesShowTypeEnum.ALL_EPISODES
-  );
 
   const currentCalendarMonth = computed((): MonthsEnum => {
     return router.currentRoute.value.query.month as MonthsEnum;
@@ -108,6 +111,10 @@ export function useCalendar() {
     showEpisodesType.value = EpisodesShowTypeEnum.LAST_EPISODES;
   }
 
+  function expandCalendarToggle() {
+    isExpandCalendar.value = !isExpandCalendar.value;
+  }
+
   return {
     calendarData,
     prevMonth,
@@ -121,5 +128,7 @@ export function useCalendar() {
     showEpisodesType,
     showAllEpisodes,
     showLastEpisodes,
+    isExpandCalendar,
+    expandCalendarToggle,
   };
 }
