@@ -6,7 +6,7 @@
     <div class="w-full h-full flex flex-1 flex-col">
       <CalendarControl />
 
-      <div class="w-full flex flex-1 overflow-x-auto">
+      <div class="w-full flex flex-1 flex-col overflow-x-auto">
         <div
           class="flex flex-1 flex-col"
           :style="`width: ${isExpandCalendar ? '700px' : 'auto'}`"
