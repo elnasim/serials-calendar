@@ -1,10 +1,16 @@
 <template>
-  <div class="container flex flex-wrap justify-center" v-if="calendarData">
-    <div class="w-full">
+  <div
+    class="container mx-auto p-4 w-full flex flex-1 flex-wrap justify-center items-center"
+    v-if="calendarData"
+  >
+    <div class="w-full h-full flex flex-1 flex-col">
       <CalendarControl />
 
-      <div class="w-full overflow-x-auto">
-        <div :style="`width: ${isExpandCalendar ? '700px' : 'auto'}`">
+      <div class="w-full flex flex-1 overflow-x-auto">
+        <div
+          class="flex flex-1 flex-col"
+          :style="`width: ${isExpandCalendar ? '700px' : 'auto'}`"
+        >
           <div class="w-full grid grid-cols-7 mb-6">
             <div class="text-center text-color-4">ПН</div>
             <div class="text-center text-color-4">ВТ</div>
@@ -15,7 +21,7 @@
             <div class="text-center text-color-4">ВС</div>
           </div>
 
-          <div class="grid grid-cols-7">
+          <div class="flex-1 grid grid-cols-7 calendar-wrapper">
             <CalendarCell
               class="calendar-grid-cell"
               v-for="day of calendarData"
@@ -63,3 +69,9 @@ watch(width, () => {
   }
 });
 </script>
+
+<style scoped>
+.calendar-wrapper {
+  grid-template-rows: repeat(auto-fit, minmax(1px, 1fr));
+}
+</style>

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex justify-between bg-color-2 h-[50px] fixed bottom-0 left-0 right-0 z-[10]"
-  >
+  <div class="h-full flex justify-between bg-color-1 border-t-color-2 border-t-[1px]">
     <router-link
       :to="mainPage"
       class="flex-1 text-[white] flex items-center justify-center"

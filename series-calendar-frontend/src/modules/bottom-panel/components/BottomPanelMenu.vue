@@ -7,7 +7,7 @@
         @click="showAllEpisodes"
         class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
         :class="{
-          'bg-color-3': showEpisodesType === EpisodesShowTypeEnum.ALL_EPISODES,
+          'bg-color-1': showEpisodesType === EpisodesShowTypeEnum.ALL_EPISODES,
         }"
       >
         Все эпизоды
@@ -17,7 +17,7 @@
         @click="showLastEpisodes"
         class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
         :class="{
-          'bg-color-3': showEpisodesType === EpisodesShowTypeEnum.LAST_EPISODES,
+          'bg-color-1': showEpisodesType === EpisodesShowTypeEnum.LAST_EPISODES,
         }"
       >
         Последние эпизоды
@@ -27,7 +27,7 @@
     <div>
       <button
         @click="expandCalendarToggle"
-        class="w-full bg-color-3 block sm:hidden rounded-full flex items-center justify-center"
+        class="w-full bg-color-1 block sm:hidden rounded-full flex items-center justify-center"
       >
         <span class="material-symbols-rounded">width</span>
       </button>
