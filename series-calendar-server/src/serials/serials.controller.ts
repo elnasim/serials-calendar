@@ -62,6 +62,7 @@ export class SerialsController {
     return this.serialsService.remove(id);
   }
 
+  @ApiOperation({ summary: 'Загружает постер сериала по id' })
   @Post(':id/upload-poster')
   @UseInterceptors(
     FileInterceptor('file', {

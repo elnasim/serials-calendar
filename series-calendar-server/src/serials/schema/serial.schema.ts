@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument, ObjectId, Schema as MongooseSchema } from 'mongoose';
 
 export type SerialDocument = HydratedDocument<Serial>;
 
 @Schema()
 export class Serial {
+  _id: ObjectId;
+
   @Prop({
     type: String,
     unique: true,
