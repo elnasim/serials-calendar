@@ -1,11 +1,11 @@
 import type { AxiosRequestHeaders } from "axios";
 import appAxios from "@/modules/common/axios";
-import type { ISerialCreate, ISerialWithEpisodes, TSerials } from "../types";
+import type { ISerialCreate, ISerialWithEpisodes } from "../types";
 
 class SerialsService {
   private headers: AxiosRequestHeaders = {};
 
-  async getAllSerials(): Promise<TSerials> {
+  async getAllSerials(): Promise<ISerialWithEpisodes[]> {
     const { data } = await appAxios({
       method: "GET",
       url: `/api/serials`,

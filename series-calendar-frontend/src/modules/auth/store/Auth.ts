@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("auth", {
 
   actions: {
     async login(login: string, password: string) {
-      const { data } = await AuthService.login(login, password);
+      await AuthService.login(login, password);
       this.isAuth = true;
     },
   },

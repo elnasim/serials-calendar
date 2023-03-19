@@ -23,11 +23,11 @@ appAxios.interceptors.response.use(
     hide();
     return response;
   },
-  function (error) {
+  async function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     hide();
-    router.push("/");
+    await router.push("/");
     return Promise.reject(error);
   }
 );

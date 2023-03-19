@@ -34,6 +34,6 @@ const createSerial = async () => {
     img: img.value,
   });
 
-  router.push("/admin/serials");
+  await router.push("/admin/serials");
 };
 </script>

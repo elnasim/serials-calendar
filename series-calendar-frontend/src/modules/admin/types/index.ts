@@ -1,11 +1,7 @@
 export interface ISerial {
   _id: string;
   title: string;
-  img: string;
-  imdb: number;
 }
-
-export type TSerials = ISerial[];
 
 export interface ISerialCreate {
   title: string;
@@ -15,8 +11,6 @@ export interface ISerialCreate {
 export interface ISerialWithEpisodes {
   _id: string;
   title: string;
-  img: string;
-  imdb: number;
   episodes: IEpisode[];
 }
 

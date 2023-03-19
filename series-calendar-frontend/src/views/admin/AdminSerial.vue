@@ -1,38 +1,55 @@
 <template>
   <MainLayout>
-    <h1 class="text-[white] text-[30px] mb-[30px]">Редактирование сериала</h1>
+    <h1 class="text-[white] text-[30px] mb-[30px]">
+      <router-link :to="routes.adminSerialsPage()">
+        <span class="material-symbols-rounded text-[20px]">arrow_back</span>
+        Редактирование сериала
+      </router-link>
+    </h1>
 
     <div class="mb-6">
-      <input type="text" class="block w-full p-2" v-model="title" />
-      <button
-        @click="updateSerialTitleHandler"
-        class="bg-[white] p-2 mt-[10px] inline-block mb-6"
+      <form
+        @submit.prevent="updateSerialTitleHandler"
+        class="grid grid-cols-2 items-stretch mb-4"
       >
-        Обновить
-      </button>
+        <input
+          type="text"
+          class="block w-full p-2 border-r-2 border-r-color-1 text-[20px]"
+          v-model="title"
+        />
 
-      <img
-        :src="`${VITE_CDN_URL}/serials/${router.currentRoute.value.params.id}.jpg`"
-        class="w-full max-w-[200px] block"
-        alt=""
-      />
+        <AdminButton text="Обновить" class="uppercase font-bold text-[20px]" />
+      </form>
 
-      <input
-        type="file"
-        class="block w-full"
-        @change="(e) => posterChangeHandler(e)"
-      />
-      <button
-        @click="posterUploadHadler"
-        class="bg-[white] p-2 mt-[10px] inline-block"
-      >
-        Обновить
-      </button>
+      <div class="grid grid-cols-[1fr_4fr] items-center gap-x-4">
+        <img
+          :src="`${VITE_CDN_URL}/serials/${
+            router.currentRoute.value.params.id
+          }.jpg?${Date.now()}`"
+          class="w-full max-w-[200px] block"
+          alt=""
+        />
+
+        <div>
+          <input
+            type="file"
+            @change="(e) => posterChangeHandler(e)"
+            accept="image/jpeg"
+            class="text-[white] block mb-2"
+          />
+
+          <AdminButton
+            @click="posterUploadHandler"
+            text="Обновить"
+            class="uppercase font-bold"
+          />
+        </div>
+      </div>
     </div>
 
-    <div class="text-[white] mb-[30px] text-[20px]">Список эпизодов</div>
+    <div class="text-[white] mb-[30px] text-[30px]">Список эпизодов</div>
 
-    <div>
+    <div class="grid grid-cols-3 gap-10 mb-10">
       <div v-for="episode of episodes" :key="episode._id" class="">
         <div class="flex items-center justify-between bg-color-5 mb-2 p-2">
           <div class="w-full">
@@ -77,7 +94,8 @@
           </div>
         </div>
 
-        <button
+        <AdminButton
+          text="Обновить"
           @click="
             updateEpisode(episode._id, {
               title: episode.title,
@@ -87,82 +105,82 @@
               is_last_season_episode: episode.is_last_season_episode,
             })
           "
-          class="bg-[#000000] text-[#FFFFFF] block w-full mb-2"
-        >
-          Обновить
-        </button>
+          class="w-full font-bold uppercase"
+        />
       </div>
     </div>
 
-    <button
+    <AdminButton
       v-if="episodesToDelete.length > 0"
       @click="removeEpisodes"
-      to="/admin/episodes/create"
-      class="bg-[white] p-2 mt-[30px] block mb-[30px]"
-    >
-      Массовое удаление
-    </button>
+      class="mb-10 w-full font-bold uppercase bg-red"
+      text="Массовое удаление"
+    />
 
-    <button
+    <AdminButton
       @click="showAddEpisodesPopup"
-      to="/admin/episodes/create"
-      class="bg-[white] p-2 mt-[30px] block mb-[30px]"
-    >
-      Добавить эпизоды
-    </button>
+      text="Добавить эпизоды"
+      class="w-full font-bold uppercase"
+    />
   </MainLayout>
 
   <Popup v-model="isShowAddEpisodesPopup">
-    <form
-      class="p-2 overflow-y-auto max-h-screen"
-      @submit.prevent="addEpisodes"
-    >
-      <div v-for="(episode, index) in newEpisodes" :key="index">
-        <label>
-          <span>Дата</span>
-          <input
-            class="block p-2 mb-2 w-full"
-            type="date"
-            placeholder="Дата выхода"
-            v-model="episode.date"
-            required
-          />
-        </label>
-
-        <label>
-          <span>Сезон</span>
-          <input
-            class="block p-2 mb-2 w-full"
-            type="text"
-            placeholder="Сезон"
-            v-model="episode.season"
-            required
-          />
-        </label>
-
-        <label>
-          <span>Эпизод</span>
-          <input
-            class="block p-2 mb-2 w-full"
-            type="text"
-            placeholder="Номер эпизода"
-            v-model="episode.episode_number"
-            required
-          />
-        </label>
-      </div>
-
-      <button
-        @click.prevent="addEditedEpisodeHandler"
-        class="block p-2 w-full mb-2 bg-color-1 text-[white]"
+    <div class="flex justify-center">
+      <form
+        class="p-4 bg-color-2 overflow-y-auto max-h-screen w-full max-w-[600px]"
+        @submit.prevent="addEpisodes"
       >
-        Добавить еще один эпизод
-      </button>
+        <div
+          v-for="(episode, index) in newEpisodes"
+          :key="index"
+          class="pb-4 mb-4 border-b-2 border-b-color-3"
+        >
+          <label>
+            <span class="text-[white]">Дата</span>
+            <input
+              class="block p-2 mb-2 w-full"
+              type="date"
+              placeholder="Дата выхода"
+              v-model="episode.date"
+              required
+            />
+          </label>
 
-      <button class="block p-2 w-full bg-color-2 text-[white]">
-        Сохранить
-      </button>
-    </form>
+          <label>
+            <span class="text-[white]">Сезон</span>
+            <input
+              class="block p-2 mb-2 w-full"
+              type="text"
+              placeholder="Сезон"
+              v-model="episode.season"
+              required
+            />
+          </label>
+
+          <label>
+            <span class="text-[white]">Эпизод</span>
+            <input
+              class="block p-2 mb-2 w-full"
+              type="text"
+              placeholder="Номер эпизода"
+              v-model="episode.episode_number"
+              required
+            />
+          </label>
+        </div>
+
+        <button
+          @click.prevent="addEditedEpisodeHandler"
+          class="block p-2 w-full mb-2 bg-color-1 text-[white]"
+        >
+          Добавить еще один эпизод
+        </button>
+
+        <button class="block p-2 w-full bg-color-2 text-[white]">
+          Сохранить
+        </button>
+      </form>
+    </div>
   </Popup>
 </template>
 
@@ -180,6 +198,8 @@ import type {
 import serialsService from "@/modules/admin/services/SerialsService";
 import episodesService from "@/modules/admin/services/EpisodesService";
 import serialize from "@/modules/admin/helpers/Serialize";
+import routes from "@/router/Routes";
+import AdminButton from "@/modules/admin/components/AdminButton.vue";
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
@@ -187,7 +207,6 @@ const router = useRouter();
 
 const serial = ref<ISerialWithEpisodes | null>(null);
 const title = ref<string>("");
-const img = ref<string>("");
 const poster = ref<Blob | null>(null);
 const episodes = ref<IEpisode[]>([]);
 const newEpisodes = ref<INewEpisode[]>([
@@ -239,7 +258,7 @@ const posterChangeHandler = (e: any) => {
   poster.value = e.target.files[0];
 };
 
-const posterUploadHadler = async () => {
+const posterUploadHandler = async () => {
   if (poster.value) {
     await serialsService.uploadPoster({
       poster: poster.value,
