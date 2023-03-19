@@ -8,6 +8,7 @@ export class ParserHelper {
   private _serialId: ObjectId;
   private _serial: CreateSerialDto = { title: '' };
   private _episodes: CreateEpisodeDto[] = [];
+  private _posterLink = '';
 
   constructor(html: string) {
     this._root = parse(html);
@@ -27,6 +28,10 @@ export class ParserHelper {
 
   get getEpisodes(): CreateEpisodeDto[] {
     return this._episodes;
+  }
+
+  get getPosterLink(): string {
+    return this._posterLink;
   }
 
   public parseSerialData() {
@@ -56,6 +61,11 @@ export class ParserHelper {
         is_last_season_episode: false,
       });
     }
+  }
+
+  public parsePosterLink() {
+    const imageWrapper = this._root.querySelector('.imgWrapper');
+    this._posterLink = imageWrapper.getElementsByTagName('img')[0]._attrs.src;
   }
 
   private replaceSymbols(value: string): string {

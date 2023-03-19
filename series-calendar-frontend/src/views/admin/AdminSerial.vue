@@ -6,20 +6,20 @@
       <input type="text" class="block w-full p-2" v-model="title" />
       <button
         @click="updateSerialTitleHandler"
-        class="bg-[white] p-2 mt-[10px] inline-block"
+        class="bg-[white] p-2 mt-[10px] inline-block mb-6"
       >
         Обновить
       </button>
 
       <img
         :src="`${VITE_CDN_URL}/serials/${router.currentRoute.value.params.id}.jpg`"
-        class="w-full max-w-[500px] block"
+        class="w-full max-w-[200px] block"
         alt=""
       />
 
       <input
         type="file"
-        class="block w-full p-2"
+        class="block w-full"
         @change="(e) => posterChangeHandler(e)"
       />
       <button
@@ -33,56 +33,64 @@
     <div class="text-[white] mb-[30px] text-[20px]">Список эпизодов</div>
 
     <div>
-      <div
-        v-for="episode of episodes"
-        :key="episode._id"
-        :to="`/admin/episodes/${episode._id}`"
-        class="flex items-center justify-between bg-color-5 mb-2 p-2"
-      >
-        <div class="w-full">
-          <input
-            class="block w-full p-2 mb-2"
-            type="text"
-            v-model="episode.title"
-          />
-          <input
-            class="block w-full p-2 mb-2"
-            type="number"
-            v-model="episode.episode_number"
-          />
-          <input
-            class="block w-full p-2 mb-2"
-            type="number"
-            v-model="episode.season"
-          />
-          <input class="block w-full p-2" type="date" v-model="episode.date" />
-        </div>
-        <div class="p-2">
-          <input
-            type="checkbox"
-            v-model="episodesToDeleteHandler"
-            :value="episode._id"
-          />
-          <button
-            @click="
-              updateEpisode(episode._id, {
-                title: episode.title,
-                date: episode.date,
-                season: episode.season,
-                episode_number: episode.episode_number,
-                is_last_season_episode: episode.is_last_season_episode,
-              })
-            "
-            class="bg-[#000000] text-[#FFFFFF]"
-          >
-            Обновить
-          </button>
+      <div v-for="episode of episodes" :key="episode._id" class="">
+        <div class="flex items-center justify-between bg-color-5 mb-2 p-2">
+          <div class="w-full">
+            <label>
+              <span>Сезон</span>
+              <input
+                class="block w-full p-2 mb-2"
+                type="number"
+                v-model="episode.season"
+              />
+            </label>
 
-          <label class="block">
-            <input type="checkbox" v-model="episode.is_last_season_episode" />
-            Последний эпизод сезона
-          </label>
+            <label>
+              <span>Номер эпизода</span>
+              <input
+                class="block w-full p-2 mb-2"
+                type="number"
+                v-model="episode.episode_number"
+              />
+            </label>
+
+            <input
+              class="block w-full p-2"
+              type="date"
+              v-model="episode.date"
+            />
+          </div>
+          <div class="p-2">
+            <label class="mb-2 block flex items-center">
+              <input
+                type="checkbox"
+                v-model="episodesToDeleteHandler"
+                :value="episode._id"
+              />
+              <span>Отметка для удаления</span>
+            </label>
+
+            <label class="flex items-center">
+              <input type="checkbox" v-model="episode.is_last_season_episode" />
+              Последний эпизод сезона
+            </label>
+          </div>
         </div>
+
+        <button
+          @click="
+            updateEpisode(episode._id, {
+              title: episode.title,
+              date: episode.date,
+              season: episode.season,
+              episode_number: episode.episode_number,
+              is_last_season_episode: episode.is_last_season_episode,
+            })
+          "
+          class="bg-[#000000] text-[#FFFFFF] block w-full mb-2"
+        >
+          Обновить
+        </button>
       </div>
     </div>
 
@@ -102,10 +110,6 @@
     >
       Добавить эпизоды
     </button>
-
-    <div class="text-[white] mb-[30px] text-[20px]">
-      Список последних эпизодов...
-    </div>
   </MainLayout>
 
   <Popup v-model="isShowAddEpisodesPopup">
@@ -114,34 +118,38 @@
       @submit.prevent="addEpisodes"
     >
       <div v-for="(episode, index) in newEpisodes" :key="index">
-        <input
-          class="block p-2 mb-2 w-full"
-          type="text"
-          placeholder="Название эпизода"
-          v-model="episode.title"
-          required
-        />
-        <input
-          class="block p-2 mb-2 w-full"
-          type="date"
-          placeholder="Дата выхода"
-          v-model="episode.date"
-          required
-        />
-        <input
-          class="block p-2 mb-2 w-full"
-          type="text"
-          placeholder="Сезон"
-          v-model="episode.season"
-          required
-        />
-        <input
-          class="block p-2 mb-2 w-full"
-          type="text"
-          placeholder="Номер эпизода"
-          v-model="episode.episode_number"
-          required
-        />
+        <label>
+          <span>Дата</span>
+          <input
+            class="block p-2 mb-2 w-full"
+            type="date"
+            placeholder="Дата выхода"
+            v-model="episode.date"
+            required
+          />
+        </label>
+
+        <label>
+          <span>Сезон</span>
+          <input
+            class="block p-2 mb-2 w-full"
+            type="text"
+            placeholder="Сезон"
+            v-model="episode.season"
+            required
+          />
+        </label>
+
+        <label>
+          <span>Эпизод</span>
+          <input
+            class="block p-2 mb-2 w-full"
+            type="text"
+            placeholder="Номер эпизода"
+            v-model="episode.episode_number"
+            required
+          />
+        </label>
       </div>
 
       <button
