@@ -40,7 +40,15 @@ export class SerialsService {
    * Возвращает сериал по id.
    */
   public findOne(id: ObjectId) {
-    return this.serialModel.findById(id).populate('episodes');
+    return this.serialModel.findById(id).populate({
+      path: 'episodes',
+      options: {
+        sort: {
+          date: -1,
+          episode_number: -1,
+        },
+      },
+    });
   }
 
   /**
