@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { onClickOutside } from "@vueuse/core";
-import { ref, defineProps, defineEmits } from "vue";
+import { ref } from "vue";
 
 defineProps(["modelValue", "maxWidth"]);
 const emit = defineEmits(["update:modelValue"]);

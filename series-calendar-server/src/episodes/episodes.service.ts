@@ -32,17 +32,17 @@ export class EpisodesService {
   }
 
   public findAllByMonthAndYear(month: MonthsEnum, year: number) {
-    const dateGTE = new Date(year, +MonthsEnum[month], 1);
+    const dateGT = new Date(year, +MonthsEnum[month], 1);
     const dateLT = new Date(
-      +MonthsEnum[month] === 11 ? year + 1 : year,
-      +MonthsEnum[month] === 11 ? 1 : +MonthsEnum[month] + 1,
+      +MonthsEnum[month] === 11 ? +year + 1 : year,
+      +MonthsEnum[month] === 11 ? 0 : +MonthsEnum[month] + 1,
       1,
     );
 
     return this.episodeModel
       .find({
         date: {
-          $gte: dateGTE,
+          $gt: dateGT,
           $lt: dateLT,
         },
       })
