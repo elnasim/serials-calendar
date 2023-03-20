@@ -12,6 +12,14 @@ class AuthService {
       withCredentials: true,
     });
   }
+
+  public validateAdmin() {
+    return appAxios({
+      method: "POST",
+      url: `/auth/validate-admin`,
+      withCredentials: true,
+    });
+  }
 }
 
 const authService = new AuthService();

@@ -13,9 +13,12 @@ import { Response as ResponseType } from 'express';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { Public } from './decorators/Public';
+import { Public } from './decorators/public.decorator';
+import { Roles } from './decorators/roles.decorator';
+import { RolesEnum } from './types';
 
 @Controller('auth')
+@Roles(RolesEnum.ADMIN)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -42,5 +45,14 @@ export class AuthController {
   @Post('registration')
   public async registration(@Body() createUserDto: CreateUserDto) {
     return this.authService.registration(createUserDto);
+  }
+
+  @Roles(RolesEnum.ADMIN)
+  @Post('validate-admin')
+  public async validateAdmin(
+    @Request() req,
+    @Response({ passthrough: true }) res: ResponseType,
+  ) {
+    return null;
   }
 }

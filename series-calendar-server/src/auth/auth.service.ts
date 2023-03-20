@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { IJwtDecode } from './types';
 
 @Injectable()
 export class AuthService {
@@ -29,17 +30,24 @@ export class AuthService {
   }
 
   public async login(user: any) {
+    const payload: IJwtDecode = {
+      roles: user._doc.roles,
+    };
+
     return {
-      access_token: this.jwtService.sign({ username: user.username }),
+      access_token: this.jwtService.sign(payload),
     };
   }
 
   public async registration(createUserDto: CreateUserDto) {
-    await this.usersService.create(createUserDto);
+    const createdUser = await this.usersService.create(createUserDto);
+
+    const payload: IJwtDecode = {
+      roles: createdUser.roles,
+    };
+
     return {
-      access_token: this.jwtService.sign({
-        username: createUserDto.username,
-      }),
+      access_token: this.jwtService.sign(payload),
     };
   }
 }
