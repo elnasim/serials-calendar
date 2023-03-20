@@ -5,7 +5,6 @@ export interface ISerial {
 
 export interface ISerialCreate {
   title: string;
-  img: string;
 }
 
 export interface ISerialWithEpisodes {

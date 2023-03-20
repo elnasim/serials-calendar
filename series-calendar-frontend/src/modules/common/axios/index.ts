@@ -1,6 +1,7 @@
 import axios from "axios";
 import router from "@/router";
 import { useFullScreenPreloader } from "@/modules/common/components/fullScreenPreloader/useFullScreenPreloader";
+import routes from "@/router/Routes";
 
 const { show, hide } = useFullScreenPreloader();
 
@@ -17,17 +18,18 @@ appAxios.interceptors.request.use(function (request) {
 
 appAxios.interceptors.response.use(
   async function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     await response;
     hide();
     return response;
   },
   async function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    switch (error.response.status) {
+      case 401:
+        await router.push(routes.calendarPage());
+        break;
+    }
     hide();
-    await router.push("/");
+
     return Promise.reject(error);
   }
 );

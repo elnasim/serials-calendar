@@ -5,7 +5,7 @@ import type { ISerialCreate, ISerialWithEpisodes } from "../types";
 class SerialsService {
   private headers: AxiosRequestHeaders = {};
 
-  async getAllSerials(): Promise<ISerialWithEpisodes[]> {
+  public async getAllSerials(): Promise<ISerialWithEpisodes[]> {
     const { data } = await appAxios({
       method: "GET",
       url: `/api/serials`,
@@ -15,13 +15,15 @@ class SerialsService {
     return data;
   }
 
-  async addSerial(payload: ISerialCreate) {
-    await appAxios({
+  public async addSerial(payload: ISerialCreate): Promise<ISerialWithEpisodes> {
+    const { data } = await appAxios({
       method: "POST",
       url: `/api/serials`,
       headers: this.headers,
       data: payload,
     });
+
+    return data;
   }
 
   async getSerialById(id: string): Promise<ISerialWithEpisodes> {

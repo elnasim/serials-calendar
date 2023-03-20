@@ -1,128 +1,122 @@
 <template>
-  <MainLayout>
-    <h1 class="text-[white] text-[30px] mb-[30px]">
-      <router-link :to="routes.adminSerialsPage()">
-        <span class="material-symbols-rounded text-[20px]">arrow_back</span>
-        Редактирование сериала
-      </router-link>
-    </h1>
+  <h1 class="text-[white] text-[30px] mb-[30px]">
+    <router-link :to="routes.adminSerialsPage()">
+      <span class="material-symbols-rounded text-[20px]">arrow_back</span>
+      Редактирование сериала
+    </router-link>
+  </h1>
 
-    <div class="mb-6">
-      <form
-        @submit.prevent="updateSerialTitleHandler"
-        class="grid grid-cols-2 items-stretch mb-4"
-      >
+  <div class="mb-6">
+    <form
+      @submit.prevent="updateSerialTitleHandler"
+      class="grid grid-cols-2 items-stretch mb-4"
+    >
+      <input
+        type="text"
+        class="block w-full p-2 border-r-2 border-r-color-1 text-[20px]"
+        v-model="title"
+      />
+
+      <AdminButton text="Обновить" class="uppercase font-bold text-[20px]" />
+    </form>
+
+    <div class="grid grid-cols-[1fr_4fr] items-center gap-x-4">
+      <img
+        :src="`${VITE_CDN_URL}/serials/${
+          router.currentRoute.value.params.id
+        }.jpg?${Date.now()}`"
+        class="w-full max-w-[200px] block"
+        alt=""
+      />
+
+      <div>
         <input
-          type="text"
-          class="block w-full p-2 border-r-2 border-r-color-1 text-[20px]"
-          v-model="title"
+          type="file"
+          @change="(e) => posterChangeHandler(e)"
+          accept="image/jpeg"
+          class="text-[white] block mb-2"
         />
-
-        <AdminButton text="Обновить" class="uppercase font-bold text-[20px]" />
-      </form>
-
-      <div class="grid grid-cols-[1fr_4fr] items-center gap-x-4">
-        <img
-          :src="`${VITE_CDN_URL}/serials/${
-            router.currentRoute.value.params.id
-          }.jpg?${Date.now()}`"
-          class="w-full max-w-[200px] block"
-          alt=""
-        />
-
-        <div>
-          <input
-            type="file"
-            @change="(e) => posterChangeHandler(e)"
-            accept="image/jpeg"
-            class="text-[white] block mb-2"
-          />
-
-          <AdminButton
-            @click="posterUploadHandler"
-            text="Обновить"
-            class="uppercase font-bold"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="text-[white] mb-[30px] text-[30px]">Список эпизодов</div>
-
-    <div class="grid grid-cols-3 gap-10 mb-10">
-      <div v-for="episode of episodes" :key="episode._id" class="">
-        <div class="flex items-center justify-between bg-color-5 mb-2 p-2">
-          <div class="w-full">
-            <label>
-              <span>Сезон</span>
-              <input
-                class="block w-full p-2 mb-2"
-                type="number"
-                v-model="episode.season"
-              />
-            </label>
-
-            <label>
-              <span>Номер эпизода</span>
-              <input
-                class="block w-full p-2 mb-2"
-                type="number"
-                v-model="episode.episode_number"
-              />
-            </label>
-
-            <input
-              class="block w-full p-2"
-              type="date"
-              v-model="episode.date"
-            />
-          </div>
-          <div class="p-2">
-            <label class="mb-2 block flex items-center">
-              <input
-                type="checkbox"
-                v-model="episodesToDeleteHandler"
-                :value="episode._id"
-              />
-              <span>Отметка для удаления</span>
-            </label>
-
-            <label class="flex items-center">
-              <input type="checkbox" v-model="episode.is_last_season_episode" />
-              Последний эпизод сезона
-            </label>
-          </div>
-        </div>
 
         <AdminButton
+          @click="posterUploadHandler"
           text="Обновить"
-          @click="
-            updateEpisode(episode._id, {
-              title: episode.title,
-              date: episode.date,
-              season: episode.season,
-              episode_number: episode.episode_number,
-              is_last_season_episode: episode.is_last_season_episode,
-            })
-          "
-          class="w-full font-bold uppercase"
+          class="uppercase font-bold"
         />
       </div>
     </div>
+  </div>
 
-    <AdminButton
-      v-if="episodesToDelete.length > 0"
-      @click="removeEpisodes"
-      class="mb-10 w-full font-bold uppercase bg-red"
-      text="Массовое удаление"
-    />
+  <div class="text-[white] mb-[30px] text-[30px]">Список эпизодов</div>
 
-    <AdminButton
-      @click="showAddEpisodesPopup"
-      text="Добавить эпизоды"
-      class="w-full font-bold uppercase"
-    />
-  </MainLayout>
+  <div class="grid grid-cols-3 gap-10 mb-10">
+    <div v-for="episode of episodes" :key="episode._id" class="">
+      <div class="flex items-center justify-between bg-color-5 mb-2 p-2">
+        <div class="w-full">
+          <label>
+            <span>Сезон</span>
+            <input
+              class="block w-full p-2 mb-2"
+              type="number"
+              v-model="episode.season"
+            />
+          </label>
+
+          <label>
+            <span>Номер эпизода</span>
+            <input
+              class="block w-full p-2 mb-2"
+              type="number"
+              v-model="episode.episode_number"
+            />
+          </label>
+
+          <input class="block w-full p-2" type="date" v-model="episode.date" />
+        </div>
+        <div class="p-2">
+          <label class="mb-2 block flex items-center">
+            <input
+              type="checkbox"
+              v-model="episodesToDeleteHandler"
+              :value="episode._id"
+            />
+            <span>Отметка для удаления</span>
+          </label>
+
+          <label class="flex items-center">
+            <input type="checkbox" v-model="episode.is_last_season_episode" />
+            Последний эпизод сезона
+          </label>
+        </div>
+      </div>
+
+      <AdminButton
+        text="Обновить"
+        @click="
+          updateEpisode(episode._id, {
+            title: episode.title,
+            date: episode.date,
+            season: episode.season,
+            episode_number: episode.episode_number,
+            is_last_season_episode: episode.is_last_season_episode,
+          })
+        "
+        class="w-full font-bold uppercase"
+      />
+    </div>
+  </div>
+
+  <AdminButton
+    v-if="episodesToDelete.length > 0"
+    @click="removeEpisodes"
+    class="mb-10 w-full font-bold uppercase bg-red"
+    text="Массовое удаление"
+  />
+
+  <AdminButton
+    @click="showAddEpisodesPopup"
+    text="Добавить эпизоды"
+    class="w-full font-bold uppercase"
+  />
 
   <Popup v-model="isShowAddEpisodesPopup">
     <div class="flex justify-center">
@@ -187,7 +181,6 @@
 <script lang="ts" setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import MainLayout from "@/views/admin/Layouts/MainLayout.vue";
 import Popup from "@/modules/common/components/Popup.vue";
 import type {
   IEpisode,
