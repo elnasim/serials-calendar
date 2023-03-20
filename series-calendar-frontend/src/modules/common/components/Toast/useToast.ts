@@ -1,12 +1,32 @@
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref } from "vue";
 
-// by convention, composable function names start with "use"
+export enum ToastTypesEnum {
+  SUCCESS = "SUCCESS",
+  ERROR = "ERROR",
+}
+
+const isShowToast = ref(false);
+const toastText = ref<string | undefined>("");
+const toastType = ref(ToastTypesEnum.SUCCESS);
+
 export function useToast() {
-  const isShowToast = ref(false);
-
-  const showToast = () => {
+  const showToast = (
+    text: string | undefined,
+    toastTypePayload?: ToastTypesEnum
+  ) => {
+    toastText.value = text;
     isShowToast.value = true;
+
+    if (toastTypePayload) {
+      toastType.value = toastTypePayload;
+    }
+
+    setTimeout(() => {
+      toastText.value = "";
+      isShowToast.value = false;
+      toastType.value = ToastTypesEnum.SUCCESS;
+    }, 3000);
   };
 
-  return { isShowToast, showToast };
+  return { isShowToast, showToast, toastText, toastType };
 }

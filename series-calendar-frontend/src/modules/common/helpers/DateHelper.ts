@@ -62,16 +62,25 @@ class DateHelper {
     return [6, 0, 1, 2, 3, 4, 5][startDay];
   }
 
-  public getYMDDate(date: Date): string {
-    return `${date.getFullYear()}-${
-      date.getMonth().toString().length === 2
-        ? date.getMonth() + 1
-        : "0" + (date.getMonth() + 1)
-    }-${
+  /**
+   * Возвращает дату в формате 01-01-2099.
+   *
+   * @param {String} payloadDate Дата.
+   *
+   * @returns {string} Преобразованная дата в формате 01-01-2099.
+   */
+  public getDMYDate(payloadDate: string): string {
+    const date = new Date(payloadDate);
+
+    return `${
       date.getDate().toString().length === 2
         ? date.getDate()
         : "0" + date.getDate()
-    }`;
+    }-${
+      date.getMonth().toString().length === 2
+        ? date.getMonth() + 1
+        : "0" + (date.getMonth() + 1)
+    }-${date.getFullYear()}`;
   }
 }
 
