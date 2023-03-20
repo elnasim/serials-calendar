@@ -25,7 +25,7 @@ import {
   ToastTypesEnum,
   useToast,
 } from "@/modules/common/components/Toast/useToast";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 const title = ref<string>("");
 
