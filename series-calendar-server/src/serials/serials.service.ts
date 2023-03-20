@@ -30,10 +30,20 @@ export class SerialsService {
    * Возвращает сериалы в заданном количестве и c заданным отступе.
    */
   public findByOffset(limit: number, skip: number) {
-    return this.serialModel.find(null, null, {
-      limit,
-      skip,
-    });
+    return this.serialModel
+      .find(null, null, {
+        limit,
+        skip,
+      })
+      .populate({
+        path: 'episodes',
+        options: {
+          sort: {
+            date: -1,
+          },
+          perDocumentLimit: 1,
+        },
+      });
   }
 
   /**

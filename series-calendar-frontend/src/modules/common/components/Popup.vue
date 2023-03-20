@@ -6,7 +6,7 @@
         class="fixed inset-0 p-2 flex justify-center items-center z-50"
       >
         <div
-          class="w-full rounded-md overflow-hidden z-[1] popup-body"
+          class="rounded-md overflow-hidden z-[1] popup-body"
           :style="{ 'max-width': maxWidth }"
           ref="target"
         >

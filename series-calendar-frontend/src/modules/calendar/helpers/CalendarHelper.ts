@@ -3,7 +3,7 @@ import DateHelper from "@/modules/common/helpers/DateHelper";
 
 export default class CalendarHelper {
   private _calendarStructure: TCalendar = [];
-  private _date: Date;
+  private readonly _date: Date;
   private _content: ISerialEpisodeWithSerialInfo[];
   private _structure: TCalendar = [];
 
