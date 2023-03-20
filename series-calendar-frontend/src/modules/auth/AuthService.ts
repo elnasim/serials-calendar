@@ -1,8 +1,8 @@
 import appAxios from "@/modules/common/axios";
 
 class AuthService {
-  public async login(username: string, password: string) {
-    const res = await appAxios({
+  public login(username: string, password: string) {
+    return appAxios({
       method: "POST",
       url: `/auth/login`,
       data: {
@@ -11,8 +11,6 @@ class AuthService {
       },
       withCredentials: true,
     });
-
-    return res;
   }
 }
 

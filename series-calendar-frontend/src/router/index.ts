@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import AdminLogin from "@/views/admin/AdminLogin.vue";
-import AdminSerials from "@/views/admin/AdminSerials.vue";
-import AdminCreateSerial from "@/views/admin/AdminSerialCreate.vue";
-import AdminSerial from "@/views/admin/AdminSerial.vue";
+import AdminLoginView from "@/views/admin/AdminLoginView.vue";
+import AdminSerialsView from "@/views/admin/AdminSerialsView.vue";
+import AdminSerialCreateView from "@/views/admin/AdminSerialCreateView.vue";
+import AdminSerialView from "@/views/admin/AdminSerialView.vue";
 import CalendarView from "@/views/CalendarView.vue";
 import BeforeEnter from "@/router/BeforeEnter";
 import pageRoutes from "@/router/Routes";
@@ -26,22 +26,22 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: pageRoutes.adminLoginPage(),
     name: "admin-login",
-    component: AdminLogin,
+    component: AdminLoginView,
   },
   {
     path: pageRoutes.adminSingleSerialPage(":id"),
     name: "admin-serial",
-    component: AdminSerial,
+    component: AdminSerialView,
   },
   {
     path: pageRoutes.adminSerialsPage(),
     name: "admin-serials",
-    component: AdminSerials,
+    component: AdminSerialsView,
   },
   {
     path: pageRoutes.adminSerialCreatePage(),
     name: "admin-serial-create",
-    component: AdminCreateSerial,
+    component: AdminSerialCreateView,
   },
   {
     path: "/:pathMatch(.*)*",
@@ -50,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("/"),
   routes,
 });
 
