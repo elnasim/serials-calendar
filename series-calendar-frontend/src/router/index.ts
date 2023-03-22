@@ -32,16 +32,19 @@ const routes: Array<RouteRecordRaw> = [
     path: pageRoutes.adminSingleSerialPage(":id"),
     name: "admin-serial",
     component: AdminSerialView,
+    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next)
   },
   {
     path: pageRoutes.adminSerialsPage(),
     name: "admin-serials",
     component: AdminSerialsView,
+    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next)
   },
   {
     path: pageRoutes.adminSerialCreatePage(),
     name: "admin-serial-create",
     component: AdminSerialCreateView,
+    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next),
   },
   {
     path: "/:pathMatch(.*)*",

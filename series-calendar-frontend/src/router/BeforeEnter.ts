@@ -1,6 +1,7 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import routes from "@/router/Routes";
 import dateHelper from "@/modules/common/helpers/DateHelper";
+import authService from "@/modules/auth/AuthService";
 
 export default class BeforeEnter {
   public static async calendar(
@@ -21,5 +22,18 @@ export default class BeforeEnter {
       date.getFullYear()
     );
     return next(r);
+  }
+
+  public static async validateAdmin(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ) {
+    try {
+      await authService.validateAdmin();
+      next();
+    } catch (e) {
+      next(routes.homePage);
+    }
   }
 }

@@ -24,6 +24,7 @@ appAxios.interceptors.response.use(
   },
   async function (error) {
     switch (error.response.status) {
+      case 403:
       case 401:
         await router.push(routes.calendarPage());
         break;
