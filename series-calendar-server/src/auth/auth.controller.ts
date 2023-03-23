@@ -16,6 +16,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { RolesEnum } from './types';
+import { RegistrationGuard } from './registration.guard';
 
 @Controller('auth')
 @Roles(RolesEnum.ADMIN)
@@ -42,6 +43,7 @@ export class AuthController {
   }
 
   @Public()
+  @UseGuards(RegistrationGuard)
   @Post('registration')
   public async registration(@Body() createUserDto: CreateUserDto) {
     return this.authService.registration(createUserDto);

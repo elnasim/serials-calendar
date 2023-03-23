@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import AdminLoginView from "@/views/admin/AdminLoginView.vue";
 import AdminSerialsView from "@/views/admin/AdminSerialsView.vue";
 import AdminSerialCreateView from "@/views/admin/AdminSerialCreateView.vue";
 import AdminSerialView from "@/views/admin/AdminSerialView.vue";
 import CalendarView from "@/views/CalendarView.vue";
 import BeforeEnter from "@/router/BeforeEnter";
 import pageRoutes from "@/router/Routes";
+import LoginView from "@/views/auth/LoginView.vue";
+import RegistrationView from "@/views/auth/RegistrationView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,9 +25,14 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: (to, from, next) => BeforeEnter.calendar(to, from, next),
   },
   {
-    path: pageRoutes.adminLoginPage(),
-    name: "admin-login",
-    component: AdminLoginView,
+    path: pageRoutes.registrationPage(),
+    name: "registration",
+    component: RegistrationView,
+  },
+  {
+    path: pageRoutes.loginPage(),
+    name: "login",
+    component: LoginView,
   },
   {
     path: pageRoutes.adminSingleSerialPage(":id"),

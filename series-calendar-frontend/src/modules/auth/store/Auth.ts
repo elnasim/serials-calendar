@@ -26,7 +26,18 @@ export const useAuthStore = defineStore("auth", {
       try {
         await AuthService.login(login, password);
         this.isAuth = true;
-        await router.push(routes.adminSerialsPage());
+        await router.push(routes.calendarPage());
+      } catch (e: any) {
+        const error = e as AxiosError<{ message: string; statusCode: number }>;
+        showToast(error.response?.data.message, ToastTypesEnum.ERROR);
+      }
+    },
+
+    async registration(email: string, password: string) {
+      try {
+        await AuthService.registration(email, password);
+        this.isAuth = true;
+        await router.push(routes.calendarPage());
       } catch (e: any) {
         const error = e as AxiosError<{ message: string; statusCode: number }>;
         showToast(error.response?.data.message, ToastTypesEnum.ERROR);

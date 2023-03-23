@@ -1,12 +1,24 @@
 import appAxios from "@/modules/common/axios";
 
 class AuthService {
-  public login(username: string, password: string) {
+  public login(email: string, password: string) {
     return appAxios({
       method: "POST",
       url: `/auth/login`,
       data: {
-        username,
+        email,
+        password,
+      },
+      withCredentials: true,
+    });
+  }
+
+  public registration(email: string, password: string) {
+    return appAxios({
+      method: "POST",
+      url: `/auth/registration`,
+      data: {
+        email,
         password,
       },
       withCredentials: true,
