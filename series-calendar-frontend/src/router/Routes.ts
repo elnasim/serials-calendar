@@ -5,16 +5,20 @@ class Routes {
     return "/";
   }
 
+  public loginPage(): string {
+    return "/login";
+  }
+
+  public registrationPage(): string {
+    return "/registration";
+  }
+
   public calendarPage(): string {
     return "/calendar";
   }
 
   public calendarPageWithQueryParams(month: MonthsEnum, year: number): string {
     return `/calendar?month=${month}&year=${year}`;
-  }
-
-  public adminLoginPage(): string {
-    return "/admin/login";
   }
 
   public adminSingleSerialPage(id: string): string {

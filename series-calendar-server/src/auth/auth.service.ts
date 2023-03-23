@@ -12,8 +12,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  public async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(username);
+  public async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.usersService.findOne(email);
 
     if (user === null) {
       return null;
@@ -27,6 +27,10 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  public validateExistsUser(email: string) {
+    return this.usersService.findOne(email);
   }
 
   public async login(user: any) {
