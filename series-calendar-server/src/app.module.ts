@@ -9,7 +9,6 @@ import { EpisodesModule } from './episodes/episodes.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ParserModule } from './parser/parser.module';
-import { MailModule } from './mail/mail.module';
 import * as process from 'process';
 
 @Module({
@@ -20,19 +19,12 @@ import * as process from 'process';
     ),
     MailerModule.forRoot({
       transport: `smtps://${process.env.SENDER_MAIL}:${process.env.SENDER_PASSWORD}@${process.env.SMTP}`,
-      template: {
-        dir: __dirname + '/templates',
-        options: {
-          strict: true,
-        },
-      },
     }),
     SerialsModule,
     EpisodesModule,
     UsersModule,
     AuthModule,
     ParserModule,
-    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
