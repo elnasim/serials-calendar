@@ -30,4 +30,13 @@ export class UsersService {
     });
     return createdUser.save();
   }
+
+  public async setEmailConfirmed(email: string) {
+    return this.userModel.findOneAndUpdate(
+      { email },
+      {
+        isEmailConfirmed: true,
+      },
+    );
+  }
 }

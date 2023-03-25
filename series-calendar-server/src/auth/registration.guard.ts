@@ -15,10 +15,11 @@ export class RegistrationGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const user = await this.authService.validateExistsUser(request.body.email);
+
     if (user) {
       throw new HttpException(
         'Пользователь с таким именем уже существует',
-        HttpStatus.CONFLICT,
+        HttpStatus.BAD_REQUEST,
       );
     }
     return true;

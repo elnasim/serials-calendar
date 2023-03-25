@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Post,
   Request,
   Response,
@@ -15,13 +13,13 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/roles.decorator';
-import { RolesEnum } from './types';
+import { ITokenValidate, RolesEnum } from './types';
 import { RegistrationGuard } from './registration.guard';
 
 @Controller('auth')
 @Roles(RolesEnum.ADMIN)
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)
@@ -31,22 +29,29 @@ export class AuthController {
     @Request() req,
     @Response({ passthrough: true }) res: ResponseType,
   ) {
-    try {
-      const { access_token } = await this.authService.login(req.user);
-      res.cookie('token', access_token, {
-        httpOnly: true,
-        maxAge: 2592000000,
-      });
-    } catch (error) {
-      throw new HttpException('UNAUTHORIZED', HttpStatus.FORBIDDEN);
-    }
+    const { access_token } = await this.authService.login(req.user);
+
+    res.cookie('token', access_token, {
+      httpOnly: true,
+      maxAge: 2592000000,
+    });
   }
 
   @Public()
   @UseGuards(RegistrationGuard)
   @Post('registration')
   public async registration(@Body() createUserDto: CreateUserDto) {
-    return this.authService.registration(createUserDto);
+    await this.authService.sendConfirmationEmail({
+      email: createUserDto.email,
+    });
+
+    return this.authService.createUser(createUserDto);
+  }
+
+  @Public()
+  @Post('validate-email')
+  public async validateEmail(@Body() token: ITokenValidate) {
+    return this.authService.validateEmailConfirmationToken(token);
   }
 
   @Roles(RolesEnum.ADMIN)
