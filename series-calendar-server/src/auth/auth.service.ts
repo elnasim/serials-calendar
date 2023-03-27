@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { IJwtDecode, ITokenValidate, IVerificationTokenPayload } from './types';
+import { User } from '../users/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,10 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
-  public async validateUser(email: string, pass: string): Promise<any> {
+  /**
+   * Проверка соответствия логина и пароля пользователя.
+   */
+  public async validateUser(email: string, pass: string): Promise<User | null> {
     const user = await this.usersService.findOne(email);
 
     if (user === null) {
@@ -24,20 +28,26 @@ export class AuthService {
     const isPasswordVerified = await bcrypt.compare(pass, user.password);
 
     if (user && isPasswordVerified) {
-      const { ...result } = user;
-      return result;
+      return user;
     }
 
     return null;
   }
 
+  /**
+   * Проверка существования в БД пользователя с указанным email.
+   */
   public validateExistsUser(email: string) {
     return this.usersService.findOne(email);
   }
 
+  /**
+   * Логин пользователя.
+   */
   public async login(user: any) {
     const payload: IJwtDecode = {
-      roles: user._doc.roles,
+      roles: user.roles,
+      id: user._id,
     };
 
     return {
@@ -45,10 +55,30 @@ export class AuthService {
     };
   }
 
+  public checkUser(token: string) {
+    if (!token) {
+      throw new HttpException(
+        { code: 'Не авторизован' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // @ts-ignore
+    const { roles, id } = this.jwtService.decode(token);
+
+    return { roles, id };
+  }
+
+  /**
+   * Создание пользователя в БД.
+   */
   public async createUser(createUserDto: CreateUserDto) {
     await this.usersService.create(createUserDto);
   }
 
+  /**
+   * Отправка письма для подтверждения email.
+   */
   public async sendConfirmationEmail(payload: IVerificationTokenPayload) {
     const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
@@ -72,6 +102,9 @@ export class AuthService {
     }
   }
 
+  /**
+   * Валидация токена из письма подтверждения.
+   */
   public async validateEmailConfirmationToken(payload: ITokenValidate) {
     const decodedToken = this.jwtService.verify(payload.token, {
       secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
@@ -81,7 +114,7 @@ export class AuthService {
 
     if (user.isEmailConfirmed) {
       throw new HttpException(
-        'Ссылка активации не действительна',
+        'Ссылка активации недействительна',
         HttpStatus.BAD_REQUEST,
       );
     }

@@ -5,6 +5,7 @@ export const enum RolesEnum {
 
 export interface IJwtDecode {
   roles: RolesEnum;
+  id: string;
 }
 
 export interface IVerificationTokenPayload {

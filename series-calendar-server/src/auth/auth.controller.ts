@@ -1,10 +1,10 @@
 import {
   Body,
   Controller,
-  HttpCode,
+  Get,
   Post,
-  Request,
-  Response,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response as ResponseType } from 'express';
@@ -23,11 +23,10 @@ export class AuthController {
 
   @Public()
   @UseGuards(LocalAuthGuard)
-  @HttpCode(200)
   @Post('login')
   public async login(
-    @Request() req,
-    @Response({ passthrough: true }) res: ResponseType,
+    @Req() req,
+    @Res({ passthrough: true }) res: ResponseType,
   ) {
     const { access_token } = await this.authService.login(req.user);
 
@@ -54,12 +53,15 @@ export class AuthController {
     return this.authService.validateEmailConfirmationToken(token);
   }
 
+  @Public()
+  @Get('check-user')
+  public checkUser(@Req() req) {
+    return this.authService.checkUser(req.cookies.token);
+  }
+
   @Roles(RolesEnum.ADMIN)
   @Post('validate-admin')
-  public async validateAdmin(
-    @Request() req,
-    @Response({ passthrough: true }) res: ResponseType,
-  ) {
+  public async validateAdmin() {
     return null;
   }
 }
