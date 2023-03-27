@@ -1,38 +1,38 @@
 <template>
-  <div
-    class="h-full flex justify-between bg-color-1 border-t-color-2 border-t-[1px]"
-  >
-    <router-link
-      :to="mainPage"
-      class="flex-1 text-[white] flex items-center justify-center"
-    >
-      <span class="material-symbols-rounded">home</span>
-    </router-link>
+  <div class="h-full bg-color-1 border-t-color-2 border-t-[1px]">
+    <div class="h-full w-full max-w-[1000px] mx-auto flex justify-between">
+      <router-link
+        :to="mainPage"
+        class="flex-1 text-[white] flex items-center justify-center"
+      >
+        <span class="material-symbols-rounded">home</span>
+      </router-link>
 
-    <button
-      @click="showMenu"
-      class="flex-1 flex items-center justify-center text-[white] relative"
-    >
-      <span class="material-symbols-rounded">settings</span>
+      <button
+        @click="showMenu"
+        class="flex-1 flex items-center justify-center text-[white] relative"
+      >
+        <span class="material-symbols-rounded">settings</span>
 
-      <BottomPanelMenu v-if="isShowMenu" ref="target" />
-    </button>
+        <BottomPanelMenu v-if="isShowMenu" ref="target" />
+      </button>
 
-    <router-link
-      v-if="authStore.isAuth"
-      :to="routes.userProfilePage()"
-      class="flex-1 flex items-center justify-center text-[white] relative"
-    >
-      <span class="material-symbols-rounded">person</span>
-    </router-link>
+      <router-link
+        v-if="authStore.isAuth"
+        :to="routes.userProfilePage()"
+        class="flex-1 flex items-center justify-center text-[white] relative"
+      >
+        <span class="material-symbols-rounded">person</span>
+      </router-link>
 
-    <router-link
-      v-else
-      :to="routes.loginPage()"
-      class="flex-1 flex items-center justify-center text-[white] relative"
-    >
-      <span class="material-symbols-rounded">login</span>
-    </router-link>
+      <router-link
+        v-else
+        :to="routes.loginPage()"
+        class="flex-1 flex items-center justify-center text-[white] relative"
+      >
+        <span class="material-symbols-rounded">login</span>
+      </router-link>
+    </div>
   </div>
 </template>
 

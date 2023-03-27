@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <Popup v-model="isShowPopup" maxWidth="500px">
+    <Popup v-model="isShowPopup">
       <CalendarCellPopup :dayData="serializeData" />
     </Popup>
   </div>
