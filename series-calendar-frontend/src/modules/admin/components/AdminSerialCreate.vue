@@ -20,7 +20,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import serialsService from "@/modules/admin/services/SerialsService";
-import routes from "@/router/Routes";
+import { routes } from "@/router/Routes";
 import {
   ToastTypesEnum,
   useToast,

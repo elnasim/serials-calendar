@@ -19,7 +19,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useAuthStore } from "@/modules/auth/store/Auth";
+import { useAuthStore } from "@/modules/auth/useAuthStore";
 
 const { login } = useAuthStore();
 

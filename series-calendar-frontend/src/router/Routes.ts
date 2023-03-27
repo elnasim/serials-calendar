@@ -21,6 +21,10 @@ class Routes {
     return `/calendar?month=${month}&year=${year}`;
   }
 
+  public userProfilePage(): string {
+    return "/profile";
+  }
+
   public adminSingleSerialPage(id: string): string {
     return `/admin/serials/${id}`;
   }
@@ -34,5 +38,4 @@ class Routes {
   }
 }
 
-const routes = new Routes();
-export default routes;
+export const routes = new Routes();

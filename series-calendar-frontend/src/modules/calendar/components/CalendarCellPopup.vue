@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full bg-color-2 p-2">
+  <div class="bg-color-2 p-2 rounded-md max-w-[500px]">
     <div
       v-for="(serial, title) in dayData"
       :key="title"

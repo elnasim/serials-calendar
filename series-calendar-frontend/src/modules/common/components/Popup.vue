@@ -5,12 +5,17 @@
         v-if="modelValue"
         class="fixed inset-0 p-2 flex justify-center items-center z-50"
       >
-        <div
-          class="rounded-md overflow-hidden z-[1] popup-body"
-          :style="{ 'max-width': maxWidth }"
-          ref="target"
-        >
-          <slot></slot>
+        <div class="relative z-[1] popup-body">
+          <div class="overflow-y-auto max-h-screen" ref="target">
+            <slot></slot>
+          </div>
+
+          <button
+            @click="() => emit('update:modelValue', false)"
+            class="absolute top-0 right-0 bg-color-5 z-[2] rounded-full flex items-center justify-center"
+          >
+            <span class="material-symbols-rounded">close</span>
+          </button>
         </div>
 
         <div class="absolute inset-0 bg-color-1/95 popup-background"></div>
@@ -23,7 +28,7 @@
 import { onClickOutside } from "@vueuse/core";
 import { ref } from "vue";
 
-defineProps(["modelValue", "maxWidth"]);
+defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const target = ref(null);

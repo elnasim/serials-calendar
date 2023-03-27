@@ -40,18 +40,3 @@ export enum MonthsEnum {
   "November" = "November",
   "December" = "December",
 }
-
-export enum MonthsRUEnum {
-  "January" = "Январь",
-  "February" = "Февраль",
-  "March" = "Март",
-  "April" = "Апрель",
-  "May" = "Май",
-  "June" = "Июнь",
-  "July" = "Июль",
-  "August" = "Август",
-  "September" = "Сентябрь",
-  "October" = "Октябрь",
-  "November" = "Ноябрь",
-  "December" = "Декабрь",
-}

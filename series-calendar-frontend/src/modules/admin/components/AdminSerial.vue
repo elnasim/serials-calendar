@@ -191,7 +191,7 @@ import type {
 import serialsService from "@/modules/admin/services/SerialsService";
 import episodesService from "@/modules/admin/services/EpisodesService";
 import serialize from "@/modules/admin/helpers/Serialize";
-import routes from "@/router/Routes";
+import { routes } from "@/router/Routes";
 import AdminButton from "@/modules/admin/components/AdminButton.vue";
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;

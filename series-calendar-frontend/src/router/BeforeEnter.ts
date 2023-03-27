@@ -1,5 +1,5 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import routes from "@/router/Routes";
+import { routes } from "@/router/Routes";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import authService from "@/modules/auth/AuthService";
 

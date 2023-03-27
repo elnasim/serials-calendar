@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex justify-center items-center mb-12">
+  <div class="w-full flex justify-center items-center">
     <button
       class="flex justify-center items-center bg-color-2 text-color-1 rounded-full w-[40px] min-w-[40px] h-[40px] cursor-pointer"
       @click="prevMonth"

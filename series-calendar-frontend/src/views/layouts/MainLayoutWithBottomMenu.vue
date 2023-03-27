@@ -1,9 +1,11 @@
 <template>
-  <div class="flex flex-col h-screen">
+  <div
+    class="w-full max-w-[1000px] mx-auto h-screen overflow-y-auto px-[10px] pt-4 pb-[70px]"
+  >
     <slot></slot>
-
-    <div class="h-[50px] min-h-[50px]"><BottomMenu /></div>
   </div>
+
+  <div class="fixed bottom-0 left-0 right-0 h-[50px]"><BottomMenu /></div>
 </template>
 
 <script setup lang="ts">

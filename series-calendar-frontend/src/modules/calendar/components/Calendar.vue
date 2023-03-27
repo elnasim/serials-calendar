@@ -1,35 +1,28 @@
 <template>
-  <div
-    class="container mx-auto p-4 w-full flex flex-1 flex-wrap justify-center items-center"
-    v-if="calendarData"
-  >
-    <div class="w-full h-full flex flex-1 flex-col">
-      <CalendarControl />
+  <div class="h-full grid grid-rows-[1fr_12fr]" v-if="calendarData">
+    <CalendarControl />
 
-      <div class="w-full flex flex-1 flex-col overflow-x-auto">
-        <div
-          class="flex flex-1 flex-col"
-          :style="`width: ${isExpandCalendar ? '700px' : 'auto'}`"
-        >
-          <div class="w-full grid grid-cols-7 mb-6">
-            <div class="text-center text-color-4">ПН</div>
-            <div class="text-center text-color-4">ВТ</div>
-            <div class="text-center text-color-4">СР</div>
-            <div class="text-center text-color-4">ЧТ</div>
-            <div class="text-center text-color-4">ПТ</div>
-            <div class="text-center text-color-4">СБ</div>
-            <div class="text-center text-color-4">ВС</div>
-          </div>
+    <div
+      class="grid grid-rows-[1fr_16fr]"
+      :style="`width: ${isExpandCalendar ? '700px' : 'auto'}`"
+    >
+      <div class="w-full grid grid-cols-7">
+        <div class="text-center text-color-4">ПН</div>
+        <div class="text-center text-color-4">ВТ</div>
+        <div class="text-center text-color-4">СР</div>
+        <div class="text-center text-color-4">ЧТ</div>
+        <div class="text-center text-color-4">ПТ</div>
+        <div class="text-center text-color-4">СБ</div>
+        <div class="text-center text-color-4">ВС</div>
+      </div>
 
-          <div class="flex-1 grid grid-cols-7 calendar-wrapper">
-            <CalendarCell
-              class="calendar-grid-cell"
-              v-for="day of calendarData"
-              :key="day?.dayInfo.dayIndex"
-              :dayData="day"
-            />
-          </div>
-        </div>
+      <div class="grid grid-cols-7 calendar-wrapper">
+        <CalendarCell
+          class="calendar-grid-cell"
+          v-for="day of calendarData"
+          :key="day?.dayInfo.dayIndex"
+          :dayData="day"
+        />
       </div>
     </div>
   </div>
