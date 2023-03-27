@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
+import { routes as pageRoutes } from "@/router/Routes";
+import BeforeEnter from "@/router/BeforeEnter";
 import HomeView from "@/views/HomeView.vue";
 import AdminSerialsView from "@/views/admin/AdminSerialsView.vue";
 import AdminSerialCreateView from "@/views/admin/AdminSerialCreateView.vue";
 import AdminSerialView from "@/views/admin/AdminSerialView.vue";
 import CalendarView from "@/views/CalendarView.vue";
-import BeforeEnter from "@/router/BeforeEnter";
-import pageRoutes from "@/router/Routes";
 import LoginView from "@/views/auth/LoginView.vue";
 import RegistrationView from "@/views/auth/RegistrationView.vue";
+import ProfileView from "@/views/ProfileView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -35,16 +36,21 @@ const routes: Array<RouteRecordRaw> = [
     component: LoginView,
   },
   {
+    path: pageRoutes.userProfilePage(),
+    name: "profile",
+    component: ProfileView,
+  },
+  {
     path: pageRoutes.adminSingleSerialPage(":id"),
     name: "admin-serial",
     component: AdminSerialView,
-    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next)
+    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next),
   },
   {
     path: pageRoutes.adminSerialsPage(),
     name: "admin-serials",
     component: AdminSerialsView,
-    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next)
+    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next),
   },
   {
     path: pageRoutes.adminSerialCreatePage(),

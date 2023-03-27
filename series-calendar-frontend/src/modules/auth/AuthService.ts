@@ -23,6 +23,13 @@ class AuthService {
     });
   }
 
+  public checkUser() {
+    return appAxios({
+      method: "GET",
+      url: `/auth/check-user`,
+    });
+  }
+
   public validateAdmin() {
     return appAxios({
       method: "POST",
