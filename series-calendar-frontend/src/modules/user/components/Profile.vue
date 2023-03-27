@@ -1,16 +1,19 @@
 <template>
-  <div class="w-full max-w-[1000px] mx-auto p-4">
+  <div class="">
     <div class="text-[white] mb-6">Email: {{ userData?.email }}</div>
 
-    <div class="text-[white] text-2xl">Избранные сериалы</div>
+    <div class="text-[white] text-2xl mb-10">Избранные сериалы</div>
 
-    <div></div>
+    <FavoriteSerial />
+    <FavoriteSerial />
+    <FavoriteSerial />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import userService from "@/modules/user/UserService";
+import FavoriteSerial from "@/modules/user/components/FavoriteSerial.vue";
 
 const userData = ref(null);
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-color-1 font-body">
+  <div class="font-body">
     <router-view />
 
     <FullScreenPreloader />
