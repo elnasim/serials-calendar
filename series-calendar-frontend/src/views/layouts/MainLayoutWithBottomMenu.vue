@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-screen">
-    <slot></slot>
+    <div class="flex-1 flex"><slot></slot></div>
 
     <div class="h-[50px] min-h-[50px]"><BottomMenu /></div>
   </div>

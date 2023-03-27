@@ -1,4 +1,4 @@
-import appAxios from "@/modules/common/axios";
+import { appAxios } from "@/modules/common/axios";
 
 class AuthService {
   public login(email: string, password: string) {
@@ -9,7 +9,6 @@ class AuthService {
         email,
         password,
       },
-      withCredentials: true,
     });
   }
 
@@ -21,7 +20,6 @@ class AuthService {
         email,
         password,
       },
-      withCredentials: true,
     });
   }
 
@@ -29,7 +27,6 @@ class AuthService {
     return appAxios({
       method: "POST",
       url: `/auth/validate-admin`,
-      withCredentials: true,
     });
   }
 }

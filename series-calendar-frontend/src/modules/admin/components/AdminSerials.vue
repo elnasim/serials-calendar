@@ -64,7 +64,7 @@ import { onMounted, ref } from "vue";
 import serialsService from "@/modules/admin/services/SerialsService";
 import type { ISerialWithEpisodes } from "@/modules/admin/types";
 import dateHelper from "@/modules/common/helpers/DateHelper";
-import routes from "@/router/Routes";
+import { routes } from "@/router/Routes";
 import {
   ToastTypesEnum,
   useToast,

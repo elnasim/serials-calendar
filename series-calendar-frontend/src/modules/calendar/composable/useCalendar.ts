@@ -1,7 +1,6 @@
 import { computed, ref } from "vue";
 import router from "@/router";
-import routes from "@/router/Routes";
-import Routes from "@/router/Routes";
+import { routes } from "@/router/Routes";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import calendarService from "@/modules/calendar/services/CalendarService";
 import type {
@@ -18,7 +17,6 @@ export enum EpisodesShowTypeEnum {
 const showEpisodesType = ref<EpisodesShowTypeEnum>(
   EpisodesShowTypeEnum.ALL_EPISODES
 );
-
 const isExpandCalendar = ref(false);
 
 export function useCalendar() {
@@ -96,7 +94,7 @@ export function useCalendar() {
 
   function setCurrentUserDate() {
     return router.push(
-      Routes.calendarPageWithQueryParams(
+      routes.calendarPageWithQueryParams(
         dateHelper.getMonthNameByIndex(userDate.getMonth()),
         userDate.getFullYear()
       )

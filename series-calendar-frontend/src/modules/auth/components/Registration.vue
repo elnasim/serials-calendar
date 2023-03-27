@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useAuthStore } from "@/modules/auth/store/Auth";
+import { useAuthStore } from "@/modules/auth/useAuthStore";
 import { useToast } from "@/modules/common/components/Toast/useToast";
 
 const { registration } = useAuthStore();

@@ -1,11 +1,14 @@
 import type { AxiosRequestHeaders } from "axios";
-import appAxios from "@/modules/common/axios";
+import { appAxios } from "@/modules/common/axios";
 import type { ISerialEpisodeWithSerialInfo } from "../types";
 import type { MonthsEnum } from "../types";
 
 class CalendarService {
   private headers: AxiosRequestHeaders = {};
 
+  /**
+   * Возвращает эпизоды на выбранный месяц и год.
+   */
   async getEpisodesByMonthAndYear(
     month: MonthsEnum,
     year: number
@@ -18,6 +21,9 @@ class CalendarService {
     return data;
   }
 
+  /**
+   * Возвращает последние эпизоды сезона на выбранный месяц и год.
+   */
   async getLastEpisodesByMonthAndYear(
     month: MonthsEnum,
     year: number

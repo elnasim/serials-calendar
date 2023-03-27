@@ -22,11 +22,20 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import routes from "@/router/Routes";
+import { routes } from "@/router/Routes";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import BottomPanelMenu from "@/modules/bottom-panel/components/BottomPanelMenu.vue";
 import { onClickOutside } from "@vueuse/core";
+import { useAuthStore } from "@/modules/auth/useAuthStore";
 
+//-----------------------------------
+// PINIA
+//-----------------------------------
+const authStore = useAuthStore();
+
+//-----------------------------------
+// COMPONENT
+//-----------------------------------
 const isShowMenu = ref(false);
 
 function showMenu() {

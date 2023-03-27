@@ -1,5 +1,5 @@
 import type { AxiosRequestHeaders } from "axios";
-import appAxios from "@/modules/common/axios";
+import { appAxios } from "@/modules/common/axios";
 import type {
   IEpisode,
   IEpisodeUpdate,

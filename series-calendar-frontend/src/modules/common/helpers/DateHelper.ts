@@ -1,6 +1,9 @@
 import { MonthsEnum } from "@/modules/calendar/types";
 
 class DateHelper {
+  /**
+   * Возвращает название месяца по его порядковому номеру.
+   */
   public getMonthNameByIndex(month: number): MonthsEnum {
     const indexByMonth = [
       MonthsEnum.January,
@@ -20,6 +23,9 @@ class DateHelper {
     return indexByMonth[month];
   }
 
+  /**
+   * Возвращает порядковый номер месяца, начиная с нуля.
+   */
   public getMonthIndex(month: MonthsEnum): number {
     enum indexByMonth {
       "January" = 0,
@@ -39,10 +45,16 @@ class DateHelper {
     return indexByMonth[month];
   }
 
+  /**
+   * Проверяет, является ли год високосным.
+   */
   public isLeapYear(year: number): boolean {
     return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
   }
 
+  /**
+   * Возвращает количество дней в месяце.
+   */
   public getDaysInMonth(date: Date): number {
     const month = date.getMonth();
     const year = date.getFullYear();
@@ -56,6 +68,9 @@ class DateHelper {
     return months[month];
   }
 
+  /**
+   * Возвращает сдвиг количества дней с начала месяца.
+   */
   public getDaysOffset(date: Date): number {
     date.setDate(1);
     const startDay = date.getDay();
@@ -64,10 +79,6 @@ class DateHelper {
 
   /**
    * Возвращает дату в формате 01-01-2099.
-   *
-   * @param {String} payloadDate Дата.
-   *
-   * @returns {string} Преобразованная дата в формате 01-01-2099.
    */
   public getDMYDate(payloadDate: string): string {
     const date = new Date(payloadDate);

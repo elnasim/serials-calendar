@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import AuthService from "../AuthService";
-import routes from "@/router/Routes";
+import AuthService from "@/modules/auth/AuthService";
 import router from "@/router";
+import { routes } from "@/router/Routes";
 import {
   ToastTypesEnum,
   useToast,
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore("auth", {
     async login(login: string, password: string) {
       try {
         await AuthService.login(login, password);
-        this.isAuth = true;
+        this.setUserAuthOn();
         await router.push(routes.calendarPage());
       } catch (e: any) {
         const error = e as AxiosError<{ message: string; statusCode: number }>;
@@ -36,12 +36,29 @@ export const useAuthStore = defineStore("auth", {
     async registration(email: string, password: string) {
       try {
         await AuthService.registration(email, password);
-        this.isAuth = true;
         await router.push(routes.calendarPage());
       } catch (e: any) {
         const error = e as AxiosError<{ message: string; statusCode: number }>;
         showToast(error.response?.data.message, ToastTypesEnum.ERROR);
       }
+    },
+
+    async checkLogin() {
+      const user = await AuthService.checkUser();
+
+      if (user) {
+        this.setUserAuthOn();
+      } else {
+        this.setUserAuthOff();
+      }
+    },
+
+    setUserAuthOn() {
+      this.isAuth = true;
+    },
+
+    setUserAuthOff() {
+      this.isAuth = false;
     },
   },
 });
