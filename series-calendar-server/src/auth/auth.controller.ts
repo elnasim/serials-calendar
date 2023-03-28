@@ -49,8 +49,18 @@ export class AuthController {
 
   @Public()
   @Post('validate-email')
-  public async validateEmail(@Body() token: ITokenValidate) {
-    return this.authService.validateEmailConfirmationToken(token);
+  public async validateEmail(
+    @Body() token: ITokenValidate,
+    @Res({ passthrough: true }) res,
+  ) {
+    const accessToken = await this.authService.validateEmailConfirmationToken(
+      token,
+    );
+
+    res.cookie('token', accessToken, {
+      httpOnly: true,
+      maxAge: 2592000000,
+    });
   }
 
   @Public()

@@ -1,11 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, ObjectId } from 'mongoose';
 import { RolesEnum } from '../../auth/types';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
+  _id: ObjectId;
+
   @Prop({
     unique: true,
     required: true,

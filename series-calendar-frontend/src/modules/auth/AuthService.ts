@@ -1,7 +1,8 @@
 import { appAxios } from "@/modules/common/axios";
+import type { AxiosResponse } from "axios";
 
 class AuthService {
-  public login(email: string, password: string) {
+  public async login(email: string, password: string): Promise<AxiosResponse> {
     return appAxios({
       method: "POST",
       url: `/auth/login`,
@@ -12,7 +13,7 @@ class AuthService {
     });
   }
 
-  public registration(email: string, password: string) {
+  public registration(email: string, password: string): Promise<AxiosResponse> {
     return appAxios({
       method: "POST",
       url: `/auth/registration`,
@@ -23,14 +24,24 @@ class AuthService {
     });
   }
 
-  public checkUser() {
+  public async validateEmail(token: string): Promise<AxiosResponse> {
+    return appAxios({
+      method: "POST",
+      url: "/auth/validate-email",
+      data: {
+        token,
+      },
+    });
+  }
+
+  public checkUser(): Promise<AxiosResponse> {
     return appAxios({
       method: "GET",
       url: `/auth/check-user`,
     });
   }
 
-  public validateAdmin() {
+  public validateAdmin(): Promise<AxiosResponse> {
     return appAxios({
       method: "POST",
       url: `/auth/validate-admin`,

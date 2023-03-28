@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongoose';
+
 export const enum RolesEnum {
   ADMIN = 'ADMIN',
   USER = 'USER',
@@ -5,7 +7,7 @@ export const enum RolesEnum {
 
 export interface IJwtDecode {
   roles: RolesEnum;
-  id: string;
+  id: ObjectId;
 }
 
 export interface IVerificationTokenPayload {
