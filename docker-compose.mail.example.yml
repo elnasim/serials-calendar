@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+    mailserver:
+        network_mode: host
+        environment:
+            - HTTPS=OFF
+            - HTTP_PORT=8080
+            #- HTTPS_PORT=4433
+            - LETSENCRYPT_EMAIL=<mail>@gmail.com
+            - LETSENCRYPT_HOST=<subdomain>.site.ru
+            - VIRTUAL_HOST=<subdomain>.site.ru
+        volumes:
+            - '/mail/data:/data'
+        container_name: mailserver
+        hostname: <subdomain>.site.ru
+        image: analogic/poste.io
