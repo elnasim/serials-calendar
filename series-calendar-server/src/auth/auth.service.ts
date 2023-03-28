@@ -105,16 +105,23 @@ export class AuthService {
   /**
    * Валидация токена из письма подтверждения.
    */
-  public async validateEmailConfirmationToken(payload: ITokenValidate) {
-    const decodedToken = this.jwtService.verify(payload.token, {
+  public async validateEmailConfirmationToken(token: ITokenValidate) {
+    const decodedToken = this.jwtService.verify(token.token, {
       secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
     });
 
     const user = await this.usersService.findOne(decodedToken.email);
 
+    const payload: IJwtDecode = {
+      id: user._id,
+      roles: user.roles,
+    };
+
     if (user.isEmailConfirmed) {
       throw new HttpException(
-        'Ссылка активации недействительна',
+        {
+          message: 'Ссылка не действительна',
+        },
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -122,9 +129,7 @@ export class AuthService {
     try {
       await this.usersService.setEmailConfirmed(decodedToken.email);
 
-      return {
-        access_token: this.jwtService.sign(payload),
-      };
+      return this.jwtService.sign(payload);
     } catch (e) {
       throw new HttpException(
         'Ошибка верификации аккаунта',

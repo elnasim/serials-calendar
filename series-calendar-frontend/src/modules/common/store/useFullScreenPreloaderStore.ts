@@ -6,7 +6,7 @@ export interface IFullScreenPreloaderStore {
 
 export const useFullScreenPreloaderStore = defineStore("fullScreenPreloader", {
   state: (): IFullScreenPreloaderStore => ({
-    isShowPreloader: true,
+    isShowPreloader: false,
   }),
 
   getters: {},

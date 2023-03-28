@@ -10,6 +10,7 @@ import CalendarView from "@/views/CalendarView.vue";
 import LoginView from "@/views/auth/LoginView.vue";
 import RegistrationView from "@/views/auth/RegistrationView.vue";
 import ProfileView from "@/views/ProfileView.vue";
+import EmailConfirmView from "@/views/auth/EmailConfirmView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -39,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
     path: pageRoutes.userProfilePage(),
     name: "profile",
     component: ProfileView,
+  },
+  {
+    path: pageRoutes.emailConfirmPage(),
+    name: "email-confirm",
+    component: EmailConfirmView,
   },
   {
     path: pageRoutes.adminSingleSerialPage(":id"),

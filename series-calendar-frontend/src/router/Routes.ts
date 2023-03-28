@@ -13,6 +13,10 @@ class Routes {
     return "/registration";
   }
 
+  public emailConfirmPage(): string {
+    return "/confirm-email";
+  }
+
   public calendarPage(): string {
     return "/calendar";
   }

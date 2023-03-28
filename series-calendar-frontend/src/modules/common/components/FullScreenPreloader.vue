@@ -23,25 +23,25 @@ import { onMounted } from "vue";
 const fullScreenPreloaderStore = useFullScreenPreloaderStore();
 
 onMounted(() => {
-  appAxios.interceptors.request.use(
-    function (req) {
-      fullScreenPreloaderStore.showPreloader();
-      return req;
-    },
-    function () {
-      fullScreenPreloaderStore.hidePreloader();
-    }
-  );
-
-  appAxios.interceptors.response.use(
-    function (res) {
-      fullScreenPreloaderStore.hidePreloader();
-      return res;
-    },
-    function () {
-      fullScreenPreloaderStore.hidePreloader();
-    }
-  );
+  // appAxios.interceptors.request.use(
+  //   function (req) {
+  //     fullScreenPreloaderStore.showPreloader();
+  //     return req;
+  //   },
+  //   function () {
+  //     fullScreenPreloaderStore.hidePreloader();
+  //   }
+  // );
+  //
+  // appAxios.interceptors.response.use(
+  //   function (res) {
+  //     fullScreenPreloaderStore.hidePreloader();
+  //     return res;
+  //   },
+  //   function () {
+  //     fullScreenPreloaderStore.hidePreloader();
+  //   }
+  // );
 });
 </script>
 
