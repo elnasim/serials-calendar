@@ -49,7 +49,7 @@ export class SerialsService {
   /**
    * Возвращает сериал по id.
    */
-  public findOne(id: ObjectId) {
+  public findOne(id: string) {
     return this.serialModel.findById(id).populate({
       path: 'episodes',
       options: {

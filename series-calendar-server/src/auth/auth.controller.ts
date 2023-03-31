@@ -15,6 +15,7 @@ import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { ITokenValidate, RolesEnum } from './types';
 import { RegistrationGuard } from './registration.guard';
+import * as process from 'process';
 
 @Controller('auth')
 @Roles(RolesEnum.ADMIN)
@@ -40,9 +41,11 @@ export class AuthController {
   @UseGuards(RegistrationGuard)
   @Post('registration')
   public async registration(@Body() createUserDto: CreateUserDto) {
-    await this.authService.sendConfirmationEmail({
-      email: createUserDto.email,
-    });
+    if (process.env.IS_USE_EMAIL_CONFIRMATION === 'true') {
+      await this.authService.sendConfirmationEmail({
+        email: createUserDto.email,
+      });
+    }
 
     return this.authService.createUser(createUserDto);
   }

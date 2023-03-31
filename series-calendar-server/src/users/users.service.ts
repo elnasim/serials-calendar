@@ -6,26 +6,30 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import * as process from 'process';
+import { SerialsService } from '../serials/serials.service';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private readonly jwtService: JwtService,
+    private readonly serialsService: SerialsService,
   ) {}
 
   public findOne(email: string): Promise<User> {
     return this.userModel.findOne({ email }).exec();
   }
 
-  public async findOneByToken(token: string) {
+  public async findOneByToken(token: string): Promise<UserDocument> {
     const jwtDecoded = this.jwtService.verify(token, {
       secret: process.env.AUTH_SECRET_KEY,
     });
 
     return this.userModel
       .findById(jwtDecoded.id)
-      .select({ email: 1, roles: 1 });
+      .select({ _id: 0, password: 0, __v: 0, roles: 0 })
+      .populate('favoriteSerials');
   }
 
   public async create(createUserDto: CreateUserDto) {
@@ -53,5 +57,39 @@ export class UsersService {
         isEmailConfirmed: true,
       },
     );
+  }
+
+  public async addFavoriteSerial(params, token: string) {
+    const jwtDecoded = this.jwtService.verify(token, {
+      secret: process.env.AUTH_SECRET_KEY,
+    });
+
+    const user = await this.userModel.findById(jwtDecoded.id);
+
+    if (user.favoriteSerials.includes(params.id)) {
+      return user.favoriteSerials;
+    }
+
+    user.favoriteSerials = [params.id, ...user.favoriteSerials];
+
+    await user.save();
+
+    return user.favoriteSerials;
+  }
+
+  public async removeFavoriteSerial(params, token: string) {
+    const jwtDecoded = this.jwtService.verify(token, {
+      secret: process.env.AUTH_SECRET_KEY,
+    });
+
+    const user = await this.userModel.findById(jwtDecoded.id);
+
+    user.favoriteSerials = user.favoriteSerials.filter(
+      (serialId) => serialId.toString() !== params.id,
+    );
+
+    await user.save();
+
+    return user.populate('favoriteSerials');
   }
 }

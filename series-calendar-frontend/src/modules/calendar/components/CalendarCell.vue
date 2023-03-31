@@ -17,8 +17,8 @@
         v-if="dayData?.content && dayData.content.length > 0"
       >
         <div
-          v-for="(serial, title) of serializeData"
-          :key="title"
+          v-for="(serial, id) of serializeData"
+          :key="id"
           class="h-full"
         >
           <div
@@ -31,7 +31,7 @@
               <div
                 class="flex items-center overflow-hidden truncate text-color-5 text-xs rounded-md pl-1 pr-1"
               >
-                <span class="truncate">{{ title }}</span>
+                <span class="truncate">{{ serial[0].serialTitle }}</span>
               </div>
             </div>
           </div>
@@ -53,6 +53,10 @@ import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import Popup from "@/modules/common/components/Popup.vue";
 import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
 import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
+
+export interface ITransformedSerials extends ISerialEpisodeWithSerialInfo {
+  serialTitle: string;
+}
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
@@ -78,16 +82,17 @@ function showPopup() {
 }
 
 const serializeData = computed(() => {
-  const obj: { [title: string]: ISerialEpisodeWithSerialInfo[] } = {};
+  const obj: { [title: string]: ITransformedSerials[] } = {};
 
   props.dayData?.content?.forEach((el) => {
-    const serialId = el.serial.title;
+    const serialTitle = el.serial.title;
+    const serialId = el.serial._id;
 
     if (!obj[serialId]) {
       obj[serialId] = [];
     }
 
-    obj[serialId].push(el);
+    obj[serialId].push({ ...el, serialTitle: serialTitle });
   });
 
   return obj;
