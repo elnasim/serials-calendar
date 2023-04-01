@@ -13,6 +13,13 @@ class AuthService {
     });
   }
 
+  public async logout() {
+    await appAxios({
+      method: "POST",
+      url: `/auth/logout`,
+    });
+  }
+
   public registration(email: string, password: string): Promise<AxiosResponse> {
     return appAxios({
       method: "POST",

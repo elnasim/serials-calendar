@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import { routes as pageRoutes } from "@/router/Routes";
-import BeforeEnter from "@/router/BeforeEnter";
+import { beforeEnter } from "@/router/BeforeEnter";
 import HomeView from "@/views/HomeView.vue";
 import AdminSerialsView from "@/views/admin/AdminSerialsView.vue";
 import AdminSerialCreateView from "@/views/admin/AdminSerialCreateView.vue";
@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     path: pageRoutes.calendarPage(),
     name: "calendar",
     component: CalendarView,
-    beforeEnter: (to, from, next) => BeforeEnter.calendar(to, from, next),
+    beforeEnter: (to, from, next) => beforeEnter.calendar(to, from, next),
   },
   {
     path: pageRoutes.registrationPage(),
@@ -40,6 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     path: pageRoutes.userProfilePage(),
     name: "profile",
     component: ProfileView,
+    beforeEnter: (to, from, next) => beforeEnter.profile(to, from, next),
   },
   {
     path: pageRoutes.emailConfirmPage(),
@@ -50,19 +51,19 @@ const routes: Array<RouteRecordRaw> = [
     path: pageRoutes.adminSingleSerialPage(":id"),
     name: "admin-serial",
     component: AdminSerialView,
-    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next),
+    beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
   },
   {
     path: pageRoutes.adminSerialsPage(),
     name: "admin-serials",
     component: AdminSerialsView,
-    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next),
+    beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
   },
   {
     path: pageRoutes.adminSerialCreatePage(),
     name: "admin-serial-create",
     component: AdminSerialCreateView,
-    beforeEnter: (to, from, next) => BeforeEnter.validateAdmin(to, from, next),
+    beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
   },
   {
     path: "/:pathMatch(.*)*",

@@ -38,6 +38,12 @@ export class AuthController {
   }
 
   @Public()
+  @Post('logout')
+  public async logout(@Res({ passthrough: true }) res: ResponseType) {
+    res.clearCookie('token');
+  }
+
+  @Public()
   @UseGuards(RegistrationGuard)
   @Post('registration')
   public async registration(@Body() createUserDto: CreateUserDto) {
