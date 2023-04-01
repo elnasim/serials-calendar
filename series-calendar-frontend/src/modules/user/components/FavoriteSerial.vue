@@ -17,7 +17,7 @@
       <!--      <div>Дата окончания сезона: Неизвестно</div>-->
     </div>
 
-    <button @click="favoriteToggle(serial._id)" class="bg-color-5">
+    <button @click="favoriteRemove(serial._id)" class="bg-color-5">
       <span class="material-symbols-rounded text-red" style="font-size: 40px">
         favorite
       </span>
@@ -27,10 +27,9 @@
 
 <script setup lang="ts">
 import type { ISerial } from "@/modules/serials/types";
-import { serialsService } from "@/modules/serials/SerialsService";
 
 defineProps<{
   serial: ISerial;
-  favoriteToggle: (serialId: string) => {};
+  favoriteRemove: (serialId: string) => {};
 }>();
 </script>

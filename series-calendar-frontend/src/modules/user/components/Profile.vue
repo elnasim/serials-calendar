@@ -8,7 +8,7 @@
       v-for="serial of userProfile?.favoriteSerials"
       :key="serial._id"
       :serial="serial"
-      :favoriteToggle="favoriteToggle"
+      :favoriteRemove="favoriteRemove"
     />
   </div>
 </template>
@@ -26,7 +26,9 @@ onMounted(async () => {
   userProfile.value = await userService.getProfile();
 });
 
-async function favoriteToggle(serialId: string) {
-  userProfile.value = await serialsService.removeFavoriteSerial(serialId);
+async function favoriteRemove(serialId: string) {
+  if (confirm("Удалить сериал из избранного?")) {
+    userProfile.value = await serialsService.removeFavoriteSerial(serialId);
+  }
 }
 </script>

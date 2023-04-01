@@ -6,18 +6,20 @@
       :style="`background-image: url(${CDN_URL}/serials/${serial[0].serial._id}.jpg)`"
       class="relative rounded-md overflow-hidden py-2 px-4 bg-cover bg-center mb-2 last:mb-0"
     >
-      <div class="relative z-[1]">
-        <div class="relative text-2xl text-[white] mb-2">
-          {{ serial[0].serialTitle }}
-        </div>
+      <div class="relative z-[1] flex items-center justify-between">
+        <div>
+          <div class="relative text-2xl text-[white] mb-2">
+            {{ serial[0].serialTitle }}
+          </div>
 
-        <div
-          v-for="episode of serial"
-          :key="episode._id"
-          class="text-[#FFFFFF] relative"
-        >
-          <div>
-            Сезон {{ episode.season }} | Серия {{ episode.episode_number }}
+          <div
+            v-for="episode of serial"
+            :key="episode._id"
+            class="text-[#FFFFFF] relative"
+          >
+            <div>
+              Сезон {{ episode.season }} | Серия {{ episode.episode_number }}
+            </div>
           </div>
         </div>
 
