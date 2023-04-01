@@ -11,7 +11,8 @@
       @click="setCurrentUserDate"
       class="text-color-5 font-bold text-2xl ml-12 mr-12 w-56 text-center select-none"
     >
-      {{ currentCalendarMonth }} | {{ currentCalendarYear }}
+      {{ calendarStore.currentCalendarMonth }} |
+      {{ calendarStore.currentCalendarYear }}
     </button>
 
     <button
@@ -24,13 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useCalendar } from "@/modules/calendar/composable/useCalendar";
+import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
 
-const {
-  prevMonth,
-  nextMonth,
-  currentCalendarMonth,
-  currentCalendarYear,
-  setCurrentUserDate,
-} = useCalendar();
+const { prevMonth, nextMonth, setCurrentUserDate } = useCalendarStore();
+
+const calendarStore = useCalendarStore();
 </script>

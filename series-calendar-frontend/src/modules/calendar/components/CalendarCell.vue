@@ -16,11 +16,7 @@
         class="h-full flex flex-col"
         v-if="dayData?.content && dayData.content.length > 0"
       >
-        <div
-          v-for="(serial, id) of serializeData"
-          :key="id"
-          class="h-full"
-        >
+        <div v-for="(serial, id) of serializeData" :key="id" class="h-full">
           <div
             class="w-full h-full bg-cover bg-repeat flex items-end p-1 relative mb-0.5 last:mb-0"
             :style="`background-image: url(${VITE_CDN_URL}/serials/${serial[0].serial._id}.jpg);`"
@@ -49,10 +45,10 @@
 import { computed, ref } from "vue";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import type { TDay } from "@/modules/calendar/types";
-import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import Popup from "@/modules/common/components/Popup.vue";
 import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
 import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
+import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
 
 export interface ITransformedSerials extends ISerialEpisodeWithSerialInfo {
   serialTitle: string;
@@ -66,12 +62,12 @@ const props = defineProps<{
 
 const isShowPopup = ref(false);
 
-const { userDate, currentCalendarMonth } = useCalendar();
+const { userDate, currentCalendarMonth } = useCalendarStore();
 
 const isCurrentDay = computed(() => {
   return (
     props.dayData?.dayInfo.dayIndex === userDate.getDate() &&
-    dateHelper.getMonthIndex(currentCalendarMonth.value) === userDate.getMonth()
+    dateHelper.getMonthIndex(currentCalendarMonth) === userDate.getMonth()
   );
 });
 
