@@ -1,12 +1,15 @@
 <template>
   <div class="">
-    <div class="text-[white] mb-6">Email: {{ userData?.email }}</div>
+    <div class="text-[white] mb-6">Email: {{ userProfile?.email }}</div>
 
     <div class="text-[white] text-2xl mb-10">Избранные сериалы</div>
 
-    <FavoriteSerial />
-    <FavoriteSerial />
-    <FavoriteSerial />
+    <FavoriteSerial
+      v-for="serial of userProfile?.favoriteSerials"
+      :key="serial._id"
+      :serial="serial"
+      :favoriteRemove="favoriteRemove"
+    />
   </div>
 </template>
 
@@ -14,10 +17,18 @@
 import { onMounted, ref } from "vue";
 import userService from "@/modules/user/UserService";
 import FavoriteSerial from "@/modules/user/components/FavoriteSerial.vue";
+import type { IUserProfile } from "@/modules/user/types";
+import { serialsService } from "@/modules/serials/SerialsService";
 
-const userData = ref(null);
+const userProfile = ref<IUserProfile>();
 
 onMounted(async () => {
-  userData.value = await userService.getProfile();
+  userProfile.value = await userService.getProfile();
 });
+
+async function favoriteRemove(serialId: string) {
+  if (confirm("Удалить сериал из избранного?")) {
+    userProfile.value = await serialsService.removeFavoriteSerial(serialId);
+  }
+}
 </script>

@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -19,7 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesEnum } from '../auth/types';
-import {Public} from "../auth/decorators/public.decorator";
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Serials')
 @Controller('api/serials')
@@ -47,7 +47,7 @@ export class SerialsController {
   @ApiOperation({ summary: 'Возвращает сериал по id' })
   @ApiParam({ name: 'id' })
   @Get(':id')
-  public findOne(@Param('id') id: ObjectId) {
+  public findOne(@Param('id') id: string) {
     return this.serialsService.findOne(id);
   }
 
