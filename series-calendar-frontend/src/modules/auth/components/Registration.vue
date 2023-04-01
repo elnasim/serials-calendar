@@ -1,31 +1,47 @@
 <template>
   <div class="flex justify-center items-center h-screen">
     <form class="w-full max-w-[300px]" @submit.prevent="registrationHandler">
-      <input
-        class="block w-full mb-2 p-2"
-        type="text"
-        v-model="email"
-        placeholder="Email"
-        required
-      />
+      <label class="mb-2 block">
+        <span class="text-[white]">Email:</span>
+        <input
+          class="block w-full p-2"
+          type="text"
+          v-model="email"
+          placeholder="Email"
+          required
+        />
+      </label>
 
-      <input
-        class="block w-full mb-2 p-2"
-        type="password"
-        v-model="password"
-        placeholder="Пароль"
-        required
-      />
+      <label class="mb-2 block">
+        <span class="text-[white]">Пароль:</span>
+        <input
+          class="block w-full p-2"
+          type="password"
+          v-model="password"
+          placeholder="Пароль"
+          required
+        />
+      </label>
 
-      <input
-        class="block w-full mb-2 p-2"
-        type="password"
-        v-model="repeatPassword"
-        placeholder="Подтверждение пароля"
-        required
-      />
+      <label class="mb-2 block">
+        <span class="text-[white]">Подтверждение пароля:</span>
+        <input
+          class="block w-full p-2"
+          type="password"
+          v-model="repeatPassword"
+          placeholder="Подтверждение пароля"
+          required
+        />
+      </label>
 
-      <button class="block w-full p-2 bg-color-5">Регистрация</button>
+      <button class="block w-full p-2 bg-color-5 mb-2">Регистрация</button>
+
+      <div class="text-[white]">
+        Уже есть аккаунт?
+        <router-link :to="routes.loginPage()" class="text-color-4">
+          Войти
+        </router-link>
+      </div>
     </form>
   </div>
 </template>
@@ -34,6 +50,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "@/modules/auth/useAuthStore";
 import { useToast } from "@/modules/common/components/Toast/useToast";
+import { routes } from "@/router/Routes";
 
 const { registration } = useAuthStore();
 
