@@ -28,28 +28,6 @@
       </button>
     </div>
 
-    <!--    <div class="mb-4 flex items-stretch justify-center p-1 rounded-md">-->
-    <!--      <button-->
-    <!--        @click="showAllSerials"-->
-    <!--        class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"-->
-    <!--        :class="{-->
-    <!--          'bg-color-1': showSerialsType === SerialsShowEnum.ALL_SERIALS,-->
-    <!--        }"-->
-    <!--      >-->
-    <!--        Все эпизоды-->
-    <!--      </button>-->
-
-    <!--      <button-->
-    <!--        @click="showFavoriteSerials"-->
-    <!--        class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"-->
-    <!--        :class="{-->
-    <!--          'bg-color-1': showSerialsType === SerialsShowEnum.FAVORITE_SERIALS,-->
-    <!--        }"-->
-    <!--      >-->
-    <!--        Последние эпизоды-->
-    <!--      </button>-->
-    <!--    </div>-->
-
     <div>
       <button
         @click="expandCalendarToggle"
