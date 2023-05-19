@@ -7,7 +7,9 @@
         @click="showAllEpisodes"
         class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
         :class="{
-          'bg-color-1': showEpisodesType === EpisodesShowTypeEnum.ALL_EPISODES,
+          'bg-color-1':
+            calendarStore.showEpisodesType ===
+            EpisodesShowTypeEnum.ALL_EPISODES,
         }"
       >
         Все эпизоды
@@ -17,7 +19,9 @@
         @click="showLastEpisodes"
         class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
         :class="{
-          'bg-color-1': showEpisodesType === EpisodesShowTypeEnum.LAST_EPISODES,
+          'bg-color-1':
+            calendarStore.showEpisodesType ===
+            EpisodesShowTypeEnum.LAST_EPISODES,
         }"
       >
         Последние эпизоды
@@ -36,13 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { useCalendar } from "@/modules/calendar/composable/useCalendar";
-import { EpisodesShowTypeEnum } from "@/modules/calendar/composable/useCalendar";
+import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
+import { EpisodesShowTypeEnum } from "@/modules/calendar/types";
 
-const {
-  showEpisodesType,
-  showLastEpisodes,
-  showAllEpisodes,
-  expandCalendarToggle,
-} = useCalendar();
+const { showLastEpisodes, showAllEpisodes, expandCalendarToggle } =
+  useCalendarStore();
+
+const calendarStore = useCalendarStore();
 </script>

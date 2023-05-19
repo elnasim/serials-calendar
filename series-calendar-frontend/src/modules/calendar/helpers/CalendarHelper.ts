@@ -1,14 +1,25 @@
 import type { ISerialEpisodeWithSerialInfo, TCalendar } from "../types";
 import DateHelper from "@/modules/common/helpers/DateHelper";
+import type { MonthsEnum } from "../types";
 
 export default class CalendarHelper {
   private _calendarStructure: TCalendar = [];
-  private readonly _date: Date;
+  private readonly _month: MonthsEnum;
+  private readonly _year: number;
   private _content: ISerialEpisodeWithSerialInfo[];
   private _structure: TCalendar = [];
 
-  constructor(date: Date, content: ISerialEpisodeWithSerialInfo[]) {
-    this._date = date;
+  constructor({
+    month,
+    year,
+    content,
+  }: {
+    month: MonthsEnum;
+    year: number;
+    content: ISerialEpisodeWithSerialInfo[];
+  }) {
+    this._month = month;
+    this._year = year;
     this._content = content;
   }
 
@@ -34,13 +45,17 @@ export default class CalendarHelper {
   private generateStructure() {
     for (
       let offset = 0;
-      offset < DateHelper.getDaysOffset(this._date);
+      offset < DateHelper.getDaysOffset(this._month, this._year);
       offset++
     ) {
       this._structure.push(null);
     }
 
-    for (let day = 1; day <= DateHelper.getDaysInMonth(this._date); day++) {
+    for (
+      let day = 1;
+      day <= DateHelper.getDaysInMonth(this._month, this._year);
+      day++
+    ) {
       this._structure.push({ content: null, dayInfo: { dayIndex: day } });
     }
   }

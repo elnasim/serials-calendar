@@ -40,3 +40,13 @@ export enum MonthsEnum {
   "November" = "November",
   "December" = "December",
 }
+
+export enum EpisodesShowTypeEnum {
+  "ALL_EPISODES" = "ALL_EPISODES",
+  "LAST_EPISODES" = "LAST_EPISODES",
+}
+
+export enum SerialsShowEnum {
+  "ALL_SERIALS" = "ALL_SERIALS",
+  "FAVORITE_SERIALS" = "FAVORITE_SERIALS",
+}

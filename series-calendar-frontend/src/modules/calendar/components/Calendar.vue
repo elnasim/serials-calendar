@@ -1,10 +1,13 @@
 <template>
-  <div class="h-full grid grid-rows-[1fr_12fr]" v-if="calendarData">
+  <div
+    class="h-full grid grid-rows-[1fr_12fr]"
+    v-if="calendarStore.calendarData"
+  >
     <CalendarControl />
 
     <div
       class="grid grid-rows-[1fr_16fr]"
-      :style="`width: ${isExpandCalendar ? '700px' : 'auto'}`"
+      :style="`width: ${calendarStore.isExpandCalendar ? '700px' : 'auto'}`"
     >
       <div class="w-full grid grid-cols-7">
         <div class="text-center text-color-4">ПН</div>
@@ -19,7 +22,7 @@
       <div class="grid grid-cols-7 calendar-wrapper">
         <CalendarCell
           class="calendar-grid-cell"
-          v-for="day of calendarData"
+          v-for="day of calendarStore.calendarData"
           :key="day?.dayInfo.dayIndex"
           :dayData="day"
         />
@@ -29,36 +32,45 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, watchEffect } from "vue";
-import { useCalendar } from "@/modules/calendar/composable/useCalendar";
+import { watch } from "vue";
 import CalendarControl from "@/modules/calendar/components/CalendarControl.vue";
 import CalendarCell from "@/modules/calendar/components/CalendarCell.vue";
-import CalendarHelper from "@/modules/calendar/helpers/CalendarHelper";
 import { useWindowSize } from "@vueuse/core";
+import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
+import { useRouter } from "vue-router";
+import { MonthsEnum } from "@/modules/calendar/types";
 
 const MOBILE_VIEW_WIDTH = 640;
 
 const {
-  calendarData,
-  fetchCalendarData,
-  currentCalendarDate,
   isExpandCalendar,
-} = useCalendar();
+  generateCalendar,
+  setExpandCalendarOff,
+  setCurrentCalendarMonth,
+  setCurrentCalendarYear,
+} = useCalendarStore();
 
-watchEffect(async () => {
-  const data = await fetchCalendarData();
+const calendarStore = useCalendarStore();
 
-  if (data) {
-    const calendar = new CalendarHelper(currentCalendarDate.value, data);
-    calendarData.value = calendar.getCalendar();
-  }
-});
+const router = useRouter();
+
+watch(
+  [router.currentRoute, () => calendarStore.showEpisodesType],
+  () => {
+    setCurrentCalendarMonth(
+      router.currentRoute.value.query.month as MonthsEnum
+    );
+    setCurrentCalendarYear(Number(router.currentRoute.value.query.year));
+    generateCalendar();
+  },
+  { immediate: true }
+);
 
 const { width } = useWindowSize();
 
 watch(width, () => {
-  if (width.value > MOBILE_VIEW_WIDTH && isExpandCalendar.value === true) {
-    isExpandCalendar.value = false;
+  if (width.value > MOBILE_VIEW_WIDTH && isExpandCalendar) {
+    setExpandCalendarOff();
   }
 });
 </script>

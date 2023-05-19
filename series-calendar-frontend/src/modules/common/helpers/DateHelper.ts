@@ -55,10 +55,8 @@ class DateHelper {
   /**
    * Возвращает количество дней в месяце.
    */
-  public getDaysInMonth(date: Date): number {
-    const month = date.getMonth();
-    const year = date.getFullYear();
-
+  public getDaysInMonth(monthEnum: MonthsEnum, year: number): number {
+    const month = this.getMonthIndex(monthEnum);
     const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     if (month === 1 && this.isLeapYear(year)) {
@@ -71,8 +69,8 @@ class DateHelper {
   /**
    * Возвращает сдвиг количества дней с начала месяца.
    */
-  public getDaysOffset(date: Date): number {
-    date.setDate(1);
+  public getDaysOffset(month: MonthsEnum, year: number): number {
+    const date = new Date(year, this.getMonthIndex(month), 1);
     const startDay = date.getDay();
     return [6, 0, 1, 2, 3, 4, 5][startDay];
   }
