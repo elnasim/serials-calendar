@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
@@ -33,6 +34,15 @@ export class EpisodesController {
     @Query('serialId') serialId: ObjectId,
   ) {
     return this.episodesService.create(serialId, createEpisodesDto);
+  }
+
+  @Public()
+  @ApiOperation({
+    summary: 'Возвращает эпизоды с заданным фильтром',
+  })
+  @Post('findWithfilter')
+  public findWithfilter(@Body() params: any, @Req() req) {
+    return this.episodesService.findWithfilter(params, req.cookies.token);
   }
 
   @Public()

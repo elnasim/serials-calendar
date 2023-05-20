@@ -38,7 +38,7 @@ import CalendarCell from "@/modules/calendar/components/CalendarCell.vue";
 import { useWindowSize } from "@vueuse/core";
 import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
 import { useRouter } from "vue-router";
-import { MonthsEnum } from "@/modules/calendar/types";
+import type { MonthsEnum } from "@/modules/calendar/types";
 
 const MOBILE_VIEW_WIDTH = 640;
 
@@ -55,7 +55,11 @@ const calendarStore = useCalendarStore();
 const router = useRouter();
 
 watch(
-  [router.currentRoute, () => calendarStore.showEpisodesType],
+  [
+    router.currentRoute,
+    () => calendarStore.isShowOnlyFavoriteSerials,
+    () => calendarStore.isShowOnlyLastEpisodes,
+  ],
   () => {
     setCurrentCalendarMonth(
       router.currentRoute.value.query.month as MonthsEnum

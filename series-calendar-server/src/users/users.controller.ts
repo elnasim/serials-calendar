@@ -7,7 +7,9 @@ export class UsersController {
 
   @Get('/profile')
   public getProfile(@Req() req) {
-    return this.usersService.findOneByToken(req.cookies.token);
+    return this.usersService.findOneByTokenWithPopulateFavoriteSerials(
+      req.cookies.token,
+    );
   }
 
   @Post('/profile/favorites-serials/:id')

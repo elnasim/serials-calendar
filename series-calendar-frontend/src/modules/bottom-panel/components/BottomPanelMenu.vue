@@ -7,9 +7,7 @@
         @click="showAllEpisodes"
         class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
         :class="{
-          'bg-color-1':
-            calendarStore.showEpisodesType ===
-            EpisodesShowTypeEnum.ALL_EPISODES,
+          'bg-color-1': !calendarStore.isShowOnlyLastEpisodes,
         }"
       >
         Все эпизоды
@@ -19,12 +17,32 @@
         @click="showLastEpisodes"
         class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
         :class="{
-          'bg-color-1':
-            calendarStore.showEpisodesType ===
-            EpisodesShowTypeEnum.LAST_EPISODES,
+          'bg-color-1': calendarStore.isShowOnlyLastEpisodes,
         }"
       >
         Последние эпизоды
+      </button>
+    </div>
+
+    <div class="mb-4 flex items-stretch justify-center p-1 rounded-md">
+      <button
+        @click="showAllSerials"
+        class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
+        :class="{
+          'bg-color-1': !calendarStore.isShowOnlyFavoriteSerials,
+        }"
+      >
+        Все сериалы
+      </button>
+
+      <button
+        @click="showFavoriteSerials"
+        class="max-w-[260px] w-full h-auto rounded-md text-[white] p-1 text-[12px] leading-3"
+        :class="{
+          'bg-color-1': calendarStore.isShowOnlyFavoriteSerials,
+        }"
+      >
+        Избранные сериалы
       </button>
     </div>
 
@@ -41,10 +59,14 @@
 
 <script setup lang="ts">
 import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
-import { EpisodesShowTypeEnum } from "@/modules/calendar/types";
 
-const { showLastEpisodes, showAllEpisodes, expandCalendarToggle } =
-  useCalendarStore();
+const {
+  showLastEpisodes,
+  showAllEpisodes,
+  expandCalendarToggle,
+  showAllSerials,
+  showFavoriteSerials,
+} = useCalendarStore();
 
 const calendarStore = useCalendarStore();
 </script>

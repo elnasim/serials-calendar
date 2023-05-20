@@ -35,6 +35,19 @@ class CalendarService {
     });
     return data;
   }
+
+  async getEpisodesWithFilter(
+    params: any
+  ): Promise<ISerialEpisodeWithSerialInfo[]> {
+    const { data } = await appAxios({
+      method: "POST",
+      url: `/api/episodes/findWithfilter`,
+      headers: this.headers,
+      data: params,
+    });
+
+    return data;
+  }
 }
 
 const calendarService = new CalendarService();
