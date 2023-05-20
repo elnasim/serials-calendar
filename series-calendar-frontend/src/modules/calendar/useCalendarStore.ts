@@ -3,15 +3,29 @@ import { routes } from "@/router/Routes";
 import router from "@/router";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import calendarService from "@/modules/calendar/services/CalendarService";
-import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
-import { EpisodesShowTypeEnum, MonthsEnum } from "@/modules/calendar/types";
+import type {
+  ISerialEpisodeWithSerialInfo,
+  TCalendar,
+} from "@/modules/calendar/types";
+import { MonthsEnum } from "@/modules/calendar/types";
 import CalendarHelper from "@/modules/calendar/helpers/CalendarHelper";
 
+interface ICalendarState {
+  isShowOnlyLastEpisodes: boolean;
+  isShowOnlyFavoriteSerials: boolean;
+  isExpandCalendar: boolean;
+  calendarData: TCalendar;
+  userDate: Date;
+  currentCalendarMonth: MonthsEnum;
+  currentCalendarYear: number;
+}
+
 export const useCalendarStore = defineStore("calendar", {
-  state: () => ({
-    showEpisodesType: EpisodesShowTypeEnum.ALL_EPISODES,
+  state: (): ICalendarState => ({
+    isShowOnlyLastEpisodes: false,
+    isShowOnlyFavoriteSerials: false,
     isExpandCalendar: false,
-    calendarData: null,
+    calendarData: [],
     userDate: new Date(),
     currentCalendarMonth: MonthsEnum.January,
     currentCalendarYear: 1970,
@@ -22,21 +36,12 @@ export const useCalendarStore = defineStore("calendar", {
   actions: {
     async fetchCalendarData(): Promise<ISerialEpisodeWithSerialInfo[] | null> {
       try {
-        if (this.showEpisodesType === EpisodesShowTypeEnum.ALL_EPISODES) {
-          return await calendarService.getEpisodesByMonthAndYear(
-            this.currentCalendarMonth,
-            this.currentCalendarYear
-          );
-        }
-
-        if (this.showEpisodesType === EpisodesShowTypeEnum.LAST_EPISODES) {
-          return await calendarService.getLastEpisodesByMonthAndYear(
-            this.currentCalendarMonth,
-            this.currentCalendarYear
-          );
-        }
-
-        return null;
+        return await calendarService.getEpisodesWithFilter({
+          month: this.currentCalendarMonth,
+          year: this.currentCalendarYear,
+          isShowOnlyLastEpisodes: this.isShowOnlyLastEpisodes,
+          isShowOnlyFavoriteSerials: this.isShowOnlyFavoriteSerials,
+        });
       } catch (error) {
         console.log("-->", error);
         return null;
@@ -95,11 +100,19 @@ export const useCalendarStore = defineStore("calendar", {
     },
 
     showAllEpisodes() {
-      this.showEpisodesType = EpisodesShowTypeEnum.ALL_EPISODES;
+      this.isShowOnlyLastEpisodes = false;
     },
 
     showLastEpisodes() {
-      this.showEpisodesType = EpisodesShowTypeEnum.LAST_EPISODES;
+      this.isShowOnlyLastEpisodes = true;
+    },
+
+    showAllSerials() {
+      this.isShowOnlyFavoriteSerials = false;
+    },
+
+    showFavoriteSerials() {
+      this.isShowOnlyFavoriteSerials = true;
     },
 
     expandCalendarToggle() {

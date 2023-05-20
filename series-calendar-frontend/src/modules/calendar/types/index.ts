@@ -46,7 +46,7 @@ export enum EpisodesShowTypeEnum {
   "LAST_EPISODES" = "LAST_EPISODES",
 }
 
-export enum SerialsShowEnum {
+export enum SerialsShowTypeEnum {
   "ALL_SERIALS" = "ALL_SERIALS",
   "FAVORITE_SERIALS" = "FAVORITE_SERIALS",
 }

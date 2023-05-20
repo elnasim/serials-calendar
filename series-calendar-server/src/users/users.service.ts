@@ -28,6 +28,18 @@ export class UsersService {
 
     return this.userModel
       .findById(jwtDecoded.id)
+      .select({ _id: 0, password: 0, __v: 0, roles: 0 });
+  }
+
+  public async findOneByTokenWithPopulateFavoriteSerials(
+    token: string,
+  ): Promise<UserDocument> {
+    const jwtDecoded = this.jwtService.verify(token, {
+      secret: process.env.AUTH_SECRET_KEY,
+    });
+
+    return this.userModel
+      .findById(jwtDecoded.id)
       .select({ _id: 0, password: 0, __v: 0, roles: 0 })
       .populate('favoriteSerials');
   }
