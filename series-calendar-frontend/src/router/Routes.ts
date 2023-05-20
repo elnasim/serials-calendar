@@ -5,6 +5,18 @@ class Routes {
     return "/";
   }
 
+  public loginPage(): string {
+    return "/login";
+  }
+
+  public registrationPage(): string {
+    return "/registration";
+  }
+
+  public emailConfirmPage(): string {
+    return "/confirm-email";
+  }
+
   public calendarPage(): string {
     return "/calendar";
   }
@@ -13,8 +25,8 @@ class Routes {
     return `/calendar?month=${month}&year=${year}`;
   }
 
-  public adminLoginPage(): string {
-    return "/admin/login";
+  public userProfilePage(): string {
+    return "/profile";
   }
 
   public adminSingleSerialPage(id: string): string {
@@ -30,5 +42,4 @@ class Routes {
   }
 }
 
-const routes = new Routes();
-export default routes;
+export const routes = new Routes();

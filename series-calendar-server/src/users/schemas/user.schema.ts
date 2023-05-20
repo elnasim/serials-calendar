@@ -1,18 +1,40 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, ObjectId, Schema as MongooseSchema } from 'mongoose';
+import { RolesEnum } from '../../auth/types';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-  @Prop()
-  username: string;
+  _id: ObjectId;
 
-  @Prop()
+  @Prop({
+    unique: true,
+    required: true,
+  })
+  email: string;
+
+  @Prop({
+    required: true,
+  })
   password: string;
 
-  @Prop()
-  email: string;
+  @Prop({
+    default: RolesEnum.USER,
+  })
+  roles: RolesEnum;
+
+  @Prop({
+    default: false,
+  })
+  isEmailConfirmed: boolean;
+
+  @Prop({
+    type: [MongooseSchema.Types.ObjectId],
+    ref: 'Serial',
+    default: [],
+  })
+  favoriteSerials: MongooseSchema.Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

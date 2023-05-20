@@ -1,5 +1,5 @@
 import type { AxiosRequestHeaders } from "axios";
-import appAxios from "@/modules/common/axios";
+import { appAxios } from "@/modules/common/axios";
 import type { ISerialCreate, ISerialWithEpisodes } from "../types";
 
 class SerialsService {
@@ -10,7 +10,6 @@ class SerialsService {
       method: "GET",
       url: `/api/serials`,
       headers: this.headers,
-      withCredentials: true,
     });
     return data;
   }

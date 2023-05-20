@@ -1,46 +1,86 @@
 import {
   Body,
   Controller,
-  HttpCode,
-  HttpException,
-  HttpStatus,
+  Get,
   Post,
-  Request,
-  Response,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response as ResponseType } from 'express';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { Public } from './decorators/Public';
+import { Public } from './decorators/public.decorator';
+import { Roles } from './decorators/roles.decorator';
+import { ITokenValidate, RolesEnum } from './types';
+import { RegistrationGuard } from './registration.guard';
+import * as process from 'process';
 
 @Controller('auth')
+@Roles(RolesEnum.ADMIN)
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)
-  @HttpCode(200)
   @Post('login')
   public async login(
-    @Request() req,
-    @Response({ passthrough: true }) res: ResponseType,
+    @Req() req,
+    @Res({ passthrough: true }) res: ResponseType,
   ) {
-    try {
-      const { access_token } = await this.authService.login(req.user);
-      res.cookie('token', access_token, {
-        httpOnly: true,
-        maxAge: 2592000000,
-      });
-    } catch (error) {
-      throw new HttpException('UNAUTHORIZED', HttpStatus.FORBIDDEN);
-    }
+    const { access_token } = await this.authService.login(req.user);
+
+    res.cookie('token', access_token, {
+      httpOnly: true,
+      maxAge: 2592000000,
+    });
   }
 
   @Public()
+  @Post('logout')
+  public async logout(@Res({ passthrough: true }) res: ResponseType) {
+    res.clearCookie('token');
+  }
+
+  @Public()
+  @UseGuards(RegistrationGuard)
   @Post('registration')
   public async registration(@Body() createUserDto: CreateUserDto) {
-    return this.authService.registration(createUserDto);
+    if (process.env.IS_USE_EMAIL_CONFIRMATION === 'true') {
+      await this.authService.sendConfirmationEmail({
+        email: createUserDto.email,
+      });
+    }
+
+    return this.authService.createUser(createUserDto);
+  }
+
+  @Public()
+  @Post('validate-email')
+  public async validateEmail(
+    @Body() token: ITokenValidate,
+    @Res({ passthrough: true }) res,
+  ) {
+    const accessToken = await this.authService.validateEmailConfirmationToken(
+      token,
+    );
+
+    res.cookie('token', accessToken, {
+      httpOnly: true,
+      maxAge: 2592000000,
+    });
+  }
+
+  @Public()
+  @Get('check-user')
+  public checkUser(@Req() req) {
+    return this.authService.checkUser(req.cookies.token);
+  }
+
+  @Roles(RolesEnum.ADMIN)
+  @Post('validate-admin')
+  public async validateAdmin() {
+    return null;
   }
 }

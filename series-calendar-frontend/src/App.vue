@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-color-1 font-body">
+  <div class="font-body">
     <router-view />
 
     <FullScreenPreloader />
@@ -9,8 +9,22 @@
 </template>
 
 <script setup lang="ts">
-import FullScreenPreloader from "@/modules/common/components/fullScreenPreloader/FullScreenPreloader.vue";
+import FullScreenPreloader from "@/modules/common/components/FullScreenPreloader.vue";
 import Toast from "@/modules/common/components/Toast/Toast.vue";
+import { onMounted } from "vue";
+import { useAuthStore } from "@/modules/auth/useAuthStore";
+import { useUserStore } from "./modules/user/useUserStore";
+
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
+onMounted(async () => {
+  await authStore.checkLogin();
+
+  if (authStore.isAuth) {
+    userStore.getProfile();
+  }
+});
 </script>
 
 <style lang="scss">

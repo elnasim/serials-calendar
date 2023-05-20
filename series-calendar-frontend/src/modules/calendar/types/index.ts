@@ -41,17 +41,12 @@ export enum MonthsEnum {
   "December" = "December",
 }
 
-export enum MonthsRUEnum {
-  "January" = "Январь",
-  "February" = "Февраль",
-  "March" = "Март",
-  "April" = "Апрель",
-  "May" = "Май",
-  "June" = "Июнь",
-  "July" = "Июль",
-  "August" = "Август",
-  "September" = "Сентябрь",
-  "October" = "Октябрь",
-  "November" = "Ноябрь",
-  "December" = "Декабрь",
+export enum EpisodesShowTypeEnum {
+  "ALL_EPISODES" = "ALL_EPISODES",
+  "LAST_EPISODES" = "LAST_EPISODES",
+}
+
+export enum SerialsShowTypeEnum {
+  "ALL_SERIALS" = "ALL_SERIALS",
+  "FAVORITE_SERIALS" = "FAVORITE_SERIALS",
 }

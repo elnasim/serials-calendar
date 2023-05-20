@@ -16,11 +16,7 @@
         class="h-full flex flex-col"
         v-if="dayData?.content && dayData.content.length > 0"
       >
-        <div
-          v-for="(serial, title) of serializeData"
-          :key="title"
-          class="h-full"
-        >
+        <div v-for="(serial, id) of serializeData" :key="id" class="h-full">
           <div
             class="w-full h-full bg-cover bg-repeat flex items-end p-1 relative mb-0.5 last:mb-0"
             :style="`background-image: url(${VITE_CDN_URL}/serials/${serial[0].serial._id}.jpg);`"
@@ -31,7 +27,7 @@
               <div
                 class="flex items-center overflow-hidden truncate text-color-5 text-xs rounded-md pl-1 pr-1"
               >
-                <span class="truncate">{{ title }}</span>
+                <span class="truncate">{{ serial[0].serialTitle }}</span>
               </div>
             </div>
           </div>
@@ -39,7 +35,7 @@
       </div>
     </div>
 
-    <Popup v-model="isShowPopup" maxWidth="500px">
+    <Popup v-model="isShowPopup">
       <CalendarCellPopup :dayData="serializeData" />
     </Popup>
   </div>
@@ -49,10 +45,14 @@
 import { computed, ref } from "vue";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import type { TDay } from "@/modules/calendar/types";
-import { useCalendar } from "@/modules/calendar/composable/useCalendar";
 import Popup from "@/modules/common/components/Popup.vue";
 import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
 import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
+import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
+
+export interface ITransformedSerials extends ISerialEpisodeWithSerialInfo {
+  serialTitle: string;
+}
 
 const VITE_CDN_URL = import.meta.env.VITE_CDN_URL;
 
@@ -62,12 +62,12 @@ const props = defineProps<{
 
 const isShowPopup = ref(false);
 
-const { userDate, currentCalendarMonth } = useCalendar();
+const { userDate, currentCalendarMonth } = useCalendarStore();
 
 const isCurrentDay = computed(() => {
   return (
     props.dayData?.dayInfo.dayIndex === userDate.getDate() &&
-    dateHelper.getMonthIndex(currentCalendarMonth.value) === userDate.getMonth()
+    dateHelper.getMonthIndex(currentCalendarMonth) === userDate.getMonth()
   );
 });
 
@@ -78,16 +78,17 @@ function showPopup() {
 }
 
 const serializeData = computed(() => {
-  const obj: { [title: string]: ISerialEpisodeWithSerialInfo[] } = {};
+  const obj: { [title: string]: ITransformedSerials[] } = {};
 
   props.dayData?.content?.forEach((el) => {
-    const serialId = el.serial.title;
+    const serialTitle = el.serial.title;
+    const serialId = el.serial._id;
 
     if (!obj[serialId]) {
       obj[serialId] = [];
     }
 
-    obj[serialId].push(el);
+    obj[serialId].push({ ...el, serialTitle: serialTitle });
   });
 
   return obj;

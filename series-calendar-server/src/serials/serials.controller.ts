@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -17,18 +17,23 @@ import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesEnum } from '../auth/types';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Serials')
 @Controller('api/serials')
 export class SerialsController {
   constructor(private readonly serialsService: SerialsService) {}
 
+  @Roles(RolesEnum.ADMIN)
   @ApiOperation({ summary: 'Создаёт сериал' })
   @Post()
   public create(@Body() createSerialDto: CreateSerialDto) {
     return this.serialsService.create(createSerialDto);
   }
 
+  @Roles(RolesEnum.ADMIN)
   @ApiOperation({ summary: 'Возвращает сериалы с пагинацией' })
   @Get()
   public findByOffset(
@@ -38,13 +43,15 @@ export class SerialsController {
     return this.serialsService.findByOffset(limit, skip);
   }
 
+  @Public()
   @ApiOperation({ summary: 'Возвращает сериал по id' })
   @ApiParam({ name: 'id' })
   @Get(':id')
-  public findOne(@Param('id') id: ObjectId) {
+  public findOne(@Param('id') id: string) {
     return this.serialsService.findOne(id);
   }
 
+  @Roles(RolesEnum.ADMIN)
   @ApiOperation({ summary: 'Обновляет сериал по id' })
   @ApiParam({ name: 'id' })
   @Patch(':id')
@@ -55,6 +62,7 @@ export class SerialsController {
     return this.serialsService.update(id, updateSerialDto);
   }
 
+  @Roles(RolesEnum.ADMIN)
   @ApiOperation({ summary: 'Удаляет сериал по id' })
   @ApiParam({ name: 'id' })
   @Delete(':id')
@@ -62,6 +70,7 @@ export class SerialsController {
     return this.serialsService.remove(id);
   }
 
+  @Roles(RolesEnum.ADMIN)
   @ApiOperation({ summary: 'Загружает постер сериала по id' })
   @Post(':id/upload-poster')
   @UseInterceptors(

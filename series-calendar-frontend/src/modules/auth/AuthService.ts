@@ -1,15 +1,57 @@
-import appAxios from "@/modules/common/axios";
+import { appAxios } from "@/modules/common/axios";
+import type { AxiosResponse } from "axios";
 
 class AuthService {
-  public login(username: string, password: string) {
+  public async login(email: string, password: string): Promise<AxiosResponse> {
     return appAxios({
       method: "POST",
       url: `/auth/login`,
       data: {
-        username,
+        email,
         password,
       },
-      withCredentials: true,
+    });
+  }
+
+  public async logout() {
+    await appAxios({
+      method: "POST",
+      url: `/auth/logout`,
+    });
+  }
+
+  public registration(email: string, password: string): Promise<AxiosResponse> {
+    return appAxios({
+      method: "POST",
+      url: `/auth/registration`,
+      data: {
+        email,
+        password,
+      },
+    });
+  }
+
+  public async validateEmail(token: string): Promise<AxiosResponse> {
+    return appAxios({
+      method: "POST",
+      url: "/auth/validate-email",
+      data: {
+        token,
+      },
+    });
+  }
+
+  public checkUser(): Promise<AxiosResponse> {
+    return appAxios({
+      method: "GET",
+      url: `/auth/check-user`,
+    });
+  }
+
+  public validateAdmin(): Promise<AxiosResponse> {
+    return appAxios({
+      method: "POST",
+      url: `/auth/validate-admin`,
     });
   }
 }

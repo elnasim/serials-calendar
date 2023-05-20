@@ -6,12 +6,14 @@ import { UpdateEpisodeDto } from './dto/update-episode.dto';
 import { Episode, EpisodeDocument } from './schema/episode.schema';
 import { SerialsService } from 'src/serials/serials.service';
 import { MonthsEnum } from 'src/common/types';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class EpisodesService {
   constructor(
     @InjectModel(Episode.name) private episodeModel: Model<EpisodeDocument>,
     private readonly serialService: SerialsService,
+    private readonly usersService: UsersService,
   ) {}
 
   public async create(
@@ -29,6 +31,43 @@ export class EpisodesService {
 
     await this.episodeModel.insertMany(newEpisodes);
     return this.serialService.addEpisodesId(serialId, episodesId);
+  }
+
+  public async findWithfilter(params, token) {
+    let user = null;
+    if (token) {
+      user = await this.usersService.findOneByToken(token);
+    }
+
+    const dateGT = new Date(params.year, +MonthsEnum[params.month], 1);
+    const dateLT = new Date(
+      +MonthsEnum[params.month] === 11 ? +params.year + 1 : params.year,
+      +MonthsEnum[params.month] === 11 ? 0 : +MonthsEnum[params.month] + 1,
+      1,
+    );
+
+    return this.episodeModel
+      .find({
+        date: {
+          $gt: dateGT,
+          $lt: dateLT,
+        },
+        is_last_season_episode: params.isShowOnlyLastEpisodes
+          ? true
+          : {
+              $exists: true,
+            },
+        serial:
+          params.isShowOnlyFavoriteSerials && user
+            ? {
+                $eq:
+                  user.favoriteSerials.length > 0 ? user.favoriteSerials : null,
+              }
+            : {
+                $exists: true,
+              },
+      })
+      .populate('serial');
   }
 
   public findAllByMonthAndYear(month: MonthsEnum, year: number) {
