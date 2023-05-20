@@ -6,7 +6,7 @@ RUN npm i -g @nestjs/cli
 
 COPY package*.json ./
 
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --legacy-peer-deps
 
 COPY . .
 

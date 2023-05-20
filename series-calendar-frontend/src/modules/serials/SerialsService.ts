@@ -1,8 +1,9 @@
 import { appAxios } from "@/modules/common/axios";
 import type { IUserProfile } from "@/modules/user/types";
+import type { ISerial } from "./types";
 
 class SerialsService {
-  public async addFavoriteSerial(id: string): Promise<string[]> {
+  public async addFavoriteSerial(id: string): Promise<ISerial[]> {
     const { data } = await appAxios({
       method: "POST",
       url: `/users/profile/favorites-serials/${id}`,
