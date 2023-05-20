@@ -23,8 +23,12 @@
           </div>
         </div>
 
-        <button @click="addToFavorite(id)">
-          <span class="material-symbols-rounded" style="color: red">
+        <button @click="addToFavorite(id as string)">
+          <span
+            class="material-symbols-rounded"
+            :class="[{ filled: isFavorite(id as string) }]"
+            style="color: red"
+          >
             favorite
           </span>
         </button>
@@ -38,6 +42,7 @@
 <script setup lang="ts">
 import type { ITransformedSerials } from "@/modules/calendar/components/CalendarCell.vue";
 import { serialsService } from "@/modules/serials/SerialsService";
+import { useUserStore } from "@/modules/user/useUserStore";
 
 defineProps<{
   dayData: { [id: string]: ITransformedSerials[] };
@@ -45,7 +50,32 @@ defineProps<{
 
 const CDN_URL = import.meta.env.VITE_CDN_URL;
 
-function addToFavorite(serialId: string) {
-  serialsService.addFavoriteSerial(serialId);
+const userStore = useUserStore();
+
+async function addToFavorite(serialId: string) {
+  if (isFavorite(serialId)) return;
+
+  try {
+    const serialIds = await serialsService.addFavoriteSerial(serialId);
+    userStore.addFavoriteSerialId(serialIds);
+  } catch (error) {
+    console.log("-->", error);
+  }
+}
+
+function isFavorite(id: string) {
+  for (let serial of userStore.profile.favoriteSerials) {
+    if (serial._id === id) {
+      return true;
+    }
+  }
+
+  return false;
 }
 </script>
+
+<style scoped>
+.filled {
+  font-variation-settings: "FILL" 1;
+}
+</style>

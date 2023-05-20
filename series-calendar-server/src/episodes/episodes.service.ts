@@ -34,7 +34,10 @@ export class EpisodesService {
   }
 
   public async findWithfilter(params, token) {
-    const user = await this.usersService.findOneByToken(token);
+    let user = null;
+    if (token) {
+      user = await this.usersService.findOneByToken(token);
+    }
 
     const dateGT = new Date(params.year, +MonthsEnum[params.month], 1);
     const dateLT = new Date(
@@ -54,14 +57,15 @@ export class EpisodesService {
           : {
               $exists: true,
             },
-        serial: params.isShowOnlyFavoriteSerials
-          ? {
-              $eq:
-                user.favoriteSerials.length > 0 ? user.favoriteSerials : null,
-            }
-          : {
-              $exists: true,
-            },
+        serial:
+          params.isShowOnlyFavoriteSerials && user
+            ? {
+                $eq:
+                  user.favoriteSerials.length > 0 ? user.favoriteSerials : null,
+              }
+            : {
+                $exists: true,
+              },
       })
       .populate('serial');
   }

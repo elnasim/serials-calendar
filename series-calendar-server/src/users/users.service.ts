@@ -79,14 +79,13 @@ export class UsersService {
     const user = await this.userModel.findById(jwtDecoded.id);
 
     if (user.favoriteSerials.includes(params.id)) {
-      return user.favoriteSerials;
+      return (await user.populate('favoriteSerials')).favoriteSerials;
     }
 
     user.favoriteSerials = [params.id, ...user.favoriteSerials];
 
     await user.save();
-
-    return user.favoriteSerials;
+    return (await user.populate('favoriteSerials')).favoriteSerials;
   }
 
   public async removeFavoriteSerial(params, token: string) {

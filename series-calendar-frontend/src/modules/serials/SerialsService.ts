@@ -2,11 +2,13 @@ import { appAxios } from "@/modules/common/axios";
 import type { IUserProfile } from "@/modules/user/types";
 
 class SerialsService {
-  public addFavoriteSerial(id: string) {
-    return appAxios({
+  public async addFavoriteSerial(id: string): Promise<string[]> {
+    const { data } = await appAxios({
       method: "POST",
       url: `/users/profile/favorites-serials/${id}`,
     });
+
+    return data;
   }
 
   public async removeFavoriteSerial(id: string): Promise<IUserProfile> {

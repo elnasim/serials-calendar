@@ -1,14 +1,14 @@
 <template>
   <div class="">
     <div class="text-[white] mb-6">
-      Email: {{ userProfile?.email }} |
+      Email: {{ userStore.profile?.email }} |
       <button @click="logout" class="underline">Выйти из аккаунта</button>
     </div>
 
     <div class="text-[white] text-2xl mb-10">Избранные сериалы</div>
 
     <FavoriteSerial
-      v-for="serial of userProfile?.favoriteSerials"
+      v-for="serial of userStore.profile?.favoriteSerials"
       :key="serial._id"
       :serial="serial"
       :favoriteRemove="favoriteRemove"
@@ -17,28 +17,27 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import userService from "@/modules/user/UserService";
 import FavoriteSerial from "@/modules/user/components/FavoriteSerial.vue";
-import type { IUserProfile } from "@/modules/user/types";
 import { serialsService } from "@/modules/serials/SerialsService";
 import authService from "@/modules/auth/AuthService";
 import { useAuthStore } from "@/modules/auth/useAuthStore";
 import { routes } from "@/router/Routes";
+import { useUserStore } from "@/modules/user/useUserStore";
 
 const { setUserAuthOff } = useAuthStore();
+const userStore = useUserStore();
 const router = useRouter();
 
-const userProfile = ref<IUserProfile>();
-
-onMounted(async () => {
-  userProfile.value = await userService.getProfile();
+onMounted(() => {
+  userStore.getProfile();
 });
 
 async function favoriteRemove(serialId: string) {
   if (confirm("Удалить сериал из избранного?")) {
-    userProfile.value = await serialsService.removeFavoriteSerial(serialId);
+    const updatedProfile = await serialsService.removeFavoriteSerial(serialId);
+    userStore.setProfile(updatedProfile);
   }
 }
 

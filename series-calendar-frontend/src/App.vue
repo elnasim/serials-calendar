@@ -13,11 +13,17 @@ import FullScreenPreloader from "@/modules/common/components/FullScreenPreloader
 import Toast from "@/modules/common/components/Toast/Toast.vue";
 import { onMounted } from "vue";
 import { useAuthStore } from "@/modules/auth/useAuthStore";
+import { useUserStore } from "./modules/user/useUserStore";
 
-const { checkLogin } = useAuthStore();
+const authStore = useAuthStore();
+const userStore = useUserStore();
 
-onMounted(() => {
-  checkLogin();
+onMounted(async () => {
+  await authStore.checkLogin();
+
+  if (authStore.isAuth) {
+    userStore.getProfile();
+  }
 });
 </script>
 
