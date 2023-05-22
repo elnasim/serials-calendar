@@ -9,7 +9,7 @@
 
     <button
       @click="setCurrentUserDate"
-      class="text-color-5 font-bold text-2xl ml-12 mr-12 w-56 text-center select-none"
+      class="text-color-5 font-bold text-2xl ml-12 mr-12 text-center select-none"
     >
       {{ calendarStore.currentCalendarMonth }} |
       {{ calendarStore.currentCalendarYear }}
