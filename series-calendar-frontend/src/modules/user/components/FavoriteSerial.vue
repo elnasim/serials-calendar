@@ -4,8 +4,8 @@
     class="mb-4 grid grid-cols-[2fr_14fr_1fr] bg-color-2 rounded-md overflow-hidden"
   >
     <img
-      :src="`http://localhost:9090/serials/${serial._id}.jpg`"
-      class="h-full w-full"
+      :src="`${cdnUrl}/serials/${serial._id}.jpg`"
+      class="h-full object-cover"
       alt=""
     />
 
@@ -32,4 +32,6 @@ defineProps<{
   serial: ISerial;
   favoriteRemove: (serialId: string) => {};
 }>();
+
+const cdnUrl = import.meta.env.VITE_CDN_URL;
 </script>
