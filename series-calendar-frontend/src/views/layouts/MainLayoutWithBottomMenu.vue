@@ -5,7 +5,9 @@
     <slot></slot>
   </div>
 
-  <div class="fixed bottom-0 left-0 right-0 h-[50px]"><BottomMenu /></div>
+  <div class="fixed bottom-0 left-0 right-0 h-[50px] z-[1]">
+    <BottomMenu />
+  </div>
 </template>
 
 <script setup lang="ts">
