@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { MailerModule } from '@nestjs-modules/mailer';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SerialsModule } from './serials/serials.module';
@@ -17,9 +16,6 @@ import * as process from 'process';
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_DB_PORT}/${process.env.MONGO_DB_NAME}`,
     ),
-    MailerModule.forRoot({
-      transport: `smtps://${process.env.SENDER_MAIL}:${process.env.SENDER_PASSWORD}@${process.env.SMTP}`,
-    }),
     SerialsModule,
     EpisodesModule,
     UsersModule,
