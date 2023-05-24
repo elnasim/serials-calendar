@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { MailerService } from '@nestjs-modules/mailer';
 import * as bcrypt from 'bcrypt';
+import axios from 'axios';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { IJwtDecode, ITokenValidate, IVerificationTokenPayload } from './types';
@@ -12,7 +12,6 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private readonly mailerService: MailerService,
   ) {}
 
   /**
@@ -55,6 +54,9 @@ export class AuthService {
     };
   }
 
+  /**
+   * Проверка пользователя.
+   */
   public checkUser(token: string) {
     if (!token) {
       throw new HttpException(
@@ -87,16 +89,28 @@ export class AuthService {
 
     const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${token}`;
 
-    const text = `Ссылка для активации аккаунта - ${url}`;
+    const text = `Ссылка для активации аккаунта - <a href="${url}">подтвердить</a>`;
 
     try {
-      await this.mailerService.sendMail({
-        to: payload.email,
-        from: process.env.SENDER_MAIL,
-        subject: 'Confirm email for serials-calendar.ru',
-        text,
-        html: `${text}`,
-      });
+      const options = {
+        method: 'POST',
+        url: process.env.EMAIL_SERVICE_API_URL,
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'api-key': process.env.EMAIL_SERVICE_API_KEY,
+        },
+        data: {
+          sender: {
+            email: process.env.EMAIL_SENDER_MAIL,
+          },
+          to: [{ email: payload.email }],
+          htmlContent: `<!DOCTYPE html> <html> <body> ${text} </body> </html>`,
+          subject: 'Подтверждение email для serials-calendar.ru',
+        },
+      };
+
+      await axios.request(options);
     } catch (e) {
       throw new HttpException('Ошибка отправки email', HttpStatus.BAD_REQUEST);
     }

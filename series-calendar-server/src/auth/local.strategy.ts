@@ -12,7 +12,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   public async validate(email: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(email, password);
 
-    if (!user) {
+    if (!user || !user.isEmailConfirmed) {
       throw new HttpException(
         { code: 'Неверный пользователь или пароль' },
         HttpStatus.BAD_REQUEST,
