@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
+  <div class="relative flex justify-center items-center h-screen">
     <form class="w-full max-w-[300px]" @submit.prevent="loginHandler">
       <label class="mb-2 block">
         <span class="block text-[white]">Email:</span>
@@ -25,6 +25,10 @@
         </router-link>
       </div>
     </form>
+
+    <router-link :to="routes.homePage()" class="absolute top-[5px] right-[5px]">
+      <span class="material-symbols-rounded text-[white]">close</span>
+    </router-link>
   </div>
 </template>
 <script lang="ts" setup>

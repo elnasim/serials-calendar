@@ -64,8 +64,7 @@ function hideMenu() {
 
 const target = ref(null);
 
-onClickOutside(target, (e) => {
-  e.stopPropagation();
+onClickOutside(target, () => {
   hideMenu();
 });
 
