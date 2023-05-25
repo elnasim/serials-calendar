@@ -33,7 +33,7 @@ export class EpisodesService {
     return this.serialService.addEpisodesId(serialId, episodesId);
   }
 
-  public async findWithfilter(params, token) {
+  public async findWithfilter(params, token: string) {
     let user = null;
     if (token) {
       user = await this.usersService.findOneByToken(token);
@@ -60,7 +60,7 @@ export class EpisodesService {
         serial:
           params.isShowOnlyFavoriteSerials && user
             ? {
-                $eq:
+                $in:
                   user.favoriteSerials.length > 0 ? user.favoriteSerials : null,
               }
             : {
