@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <button @click="addToFavorite(id as string)">
+        <button v-if="authStore.isAuth" @click="addToFavorite(id as string)">
           <span
             class="material-symbols-rounded"
             :class="[{ filled: isFavorite(id as string) }]"
@@ -32,6 +32,16 @@
             favorite
           </span>
         </button>
+
+        <router-link v-else :to="routes.loginPage()">
+          <span
+            class="material-symbols-rounded"
+            :class="[{ filled: isFavorite(id as string) }]"
+            style="color: red"
+          >
+            favorite
+          </span>
+        </router-link>
       </div>
 
       <div class="absolute inset-0 bg-[black]/80"></div>
@@ -43,6 +53,8 @@
 import type { ITransformedSerials } from "@/modules/calendar/components/CalendarCell.vue";
 import { serialsService } from "@/modules/serials/SerialsService";
 import { useUserStore } from "@/modules/user/useUserStore";
+import { useAuthStore } from "@/modules/auth/useAuthStore";
+import { routes } from "@/router/Routes";
 
 defineProps<{
   dayData: { [id: string]: ITransformedSerials[] };
@@ -51,6 +63,7 @@ defineProps<{
 const CDN_URL = import.meta.env.VITE_CDN_URL;
 
 const userStore = useUserStore();
+const authStore = useAuthStore();
 
 async function addToFavorite(serialId: string) {
   if (isFavorite(serialId)) return;
