@@ -11,7 +11,7 @@
       @click="setCurrentUserDate"
       class="text-color-5 font-bold text-2xl ml-12 mr-12 text-center select-none"
     >
-      {{ calendarStore.currentCalendarMonth }}
+      {{ MonthsRuEnum[calendarStore.currentCalendarMonth] }}
       <br />
       {{ calendarStore.currentCalendarYear }}
     </button>
@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
+import { MonthsRuEnum } from "../types";
 
 const { prevMonth, nextMonth, setCurrentUserDate } = useCalendarStore();
 
