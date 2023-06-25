@@ -40,6 +40,18 @@ class Routes {
   public adminSerialCreatePage(): string {
     return "/admin/serials/create";
   }
+
+  public adminSingleMoviePage(id: string): string {
+    return `/admin/movies/${id}`;
+  }
+
+  public adminMoviesPage(): string {
+    return "/admin/movies";
+  }
+
+  public adminMovieCreatePage(): string {
+    return "/admin/movies/create";
+  }
 }
 
 export const routes = new Routes();

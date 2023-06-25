@@ -1,10 +1,17 @@
 export type TCalendar = TDay[];
+export type TCalendarMovies = TDayMovies[];
 
 export type TDay = IDay | null;
+export type TDayMovies = IDayMovies | null;
 
 export interface IDay {
   dayInfo: IDayInfo;
   content: Array<ISerialEpisodeWithSerialInfo> | null;
+}
+
+export interface IDayMovies {
+  dayInfo: IDayInfo;
+  content: Array<IMovie> | null;
 }
 
 export interface IDayInfo {
@@ -49,4 +56,10 @@ export enum EpisodesShowTypeEnum {
 export enum SerialsShowTypeEnum {
   "ALL_SERIALS" = "ALL_SERIALS",
   "FAVORITE_SERIALS" = "FAVORITE_SERIALS",
+}
+
+export interface IMovie {
+  _id: string;
+  title: string;
+  digital_date: Date;
 }

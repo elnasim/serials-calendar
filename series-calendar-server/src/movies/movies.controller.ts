@@ -20,6 +20,7 @@ import { diskStorage } from 'multer';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesEnum } from '../auth/types';
 import { Public } from '../auth/decorators/public.decorator';
+import {MonthsEnum} from "../common/types";
 
 @ApiTags('Movies')
 @Controller('api/movies')
@@ -41,6 +42,16 @@ export class MoviesController {
     @Query('skip') skip: number,
   ) {
     return this.moviesService.findByOffset(limit, skip);
+  }
+
+  @Public()
+  @ApiOperation({ summary: 'Возвращает фильмы для заданного месяца и года' })
+  @Get('/findAllByMonthAndYear')
+  public findAllByMonthAndYear(
+      @Query('month') month: MonthsEnum,
+      @Query('year') year: number,
+  ) {
+    return this.moviesService.findAllByMonthAndYear(month, year);
   }
 
   @Public()

@@ -17,21 +17,21 @@
         <BottomPanelMenu v-if="isShowMenu" ref="target" />
       </button>
 
-      <router-link
-        v-if="authStore.isAuth"
-        :to="routes.userProfilePage()"
-        class="flex-1 flex items-center justify-center text-[white] relative"
-      >
-        <span class="material-symbols-rounded">person</span>
-      </router-link>
+<!--      <router-link-->
+<!--        v-if="authStore.isAuth"-->
+<!--        :to="routes.userProfilePage()"-->
+<!--        class="flex-1 flex items-center justify-center text-[white] relative"-->
+<!--      >-->
+<!--        <span class="material-symbols-rounded">person</span>-->
+<!--      </router-link>-->
 
-      <router-link
-        v-else
-        :to="routes.loginPage()"
-        class="flex-1 flex items-center justify-center text-[white] relative"
-      >
-        <span class="material-symbols-rounded">login</span>
-      </router-link>
+<!--      <router-link-->
+<!--        v-else-->
+<!--        :to="routes.loginPage()"-->
+<!--        class="flex-1 flex items-center justify-center text-[white] relative"-->
+<!--      >-->
+<!--        <span class="material-symbols-rounded">login</span>-->
+<!--      </router-link>-->
     </div>
   </div>
 </template>

@@ -11,6 +11,10 @@ import LoginView from "@/views/auth/LoginView.vue";
 import RegistrationView from "@/views/auth/RegistrationView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import EmailConfirmView from "@/views/auth/EmailConfirmView.vue";
+import AdminMovieView from "@/views/admin/AdminMovieView.vue";
+import AdminMoviesView from "@/views/admin/AdminMoviesView.vue";
+import AdminMovieCreateView from "@/views/admin/AdminMovieCreateView.vue";
+import CalendarMoviesView from "@/views/CalendarMoviesView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: pageRoutes.calendarPage(),
     name: "calendar",
-    component: CalendarView,
+    component: CalendarMoviesView,
     beforeEnter: (to, from, next) => beforeEnter.calendar(to, from, next),
   },
   {
@@ -63,6 +67,24 @@ const routes: Array<RouteRecordRaw> = [
     path: pageRoutes.adminSerialCreatePage(),
     name: "admin-serial-create",
     component: AdminSerialCreateView,
+    beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
+  },
+  {
+    path: pageRoutes.adminSingleMoviePage(":id"),
+    name: "admin-movie",
+    component: AdminMovieView,
+    beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
+  },
+  {
+    path: pageRoutes.adminMoviesPage(),
+    name: "admin-movies",
+    component: AdminMoviesView,
+    beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
+  },
+  {
+    path: pageRoutes.adminMovieCreatePage(),
+    name: "admin-movie-create",
+    component: AdminMovieCreateView,
     beforeEnter: (to, from, next) => beforeEnter.validateAdmin(to, from, next),
   },
   {

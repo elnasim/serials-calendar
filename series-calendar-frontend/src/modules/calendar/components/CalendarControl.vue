@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
+import { useCalendarMoviesStore } from "@/modules/calendar/useCalendarMoviesStore";
 
-const { prevMonth, nextMonth, setCurrentUserDate } = useCalendarStore();
+const { prevMonth, nextMonth, setCurrentUserDate } = useCalendarMoviesStore();
 
-const calendarStore = useCalendarStore();
+const calendarStore = useCalendarMoviesStore();
 </script>

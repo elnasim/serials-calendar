@@ -38,3 +38,13 @@ export interface INewEpisode {
   serial: string;
   is_last_season_episode: boolean;
 }
+
+export interface IMovie {
+  _id: string;
+  title: string;
+  digital_date: string;
+}
+
+export interface IMovieCreate {
+  title: string;
+}

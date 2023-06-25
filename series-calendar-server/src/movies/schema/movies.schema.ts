@@ -12,6 +12,11 @@ export class Movie {
     unique: true,
   })
   title: string;
+
+  @Prop({
+    type: MongooseSchema.Types.Date,
+  })
+  digital_date: MongooseSchema.Types.Date;
 }
 
 export const MoviesSchema = SchemaFactory.createForClass(Movie);
