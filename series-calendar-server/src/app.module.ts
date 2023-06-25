@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SerialsModule } from './serials/serials.module';
 import { EpisodesModule } from './episodes/episodes.module';
+import { MoviesModule } from './movies/movies.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ParserModule } from './parser/parser.module';
@@ -17,6 +18,7 @@ import * as process from 'process';
       `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_DB_PORT}/${process.env.MONGO_DB_NAME}`,
     ),
     SerialsModule,
+    MoviesModule,
     EpisodesModule,
     UsersModule,
     AuthModule,
