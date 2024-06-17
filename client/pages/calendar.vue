@@ -1,0 +1,1 @@
+<template>    <Calendar /></template><script setup lang="ts">import Calendar from "~/appModules/calendar/components/Calendar.vue";</script>

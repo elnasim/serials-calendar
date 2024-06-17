@@ -40,9 +40,9 @@ export class EpisodesController {
   @ApiOperation({
     summary: 'Возвращает эпизоды с заданным фильтром',
   })
-  @Post('findWithfilter')
-  public findWithfilter(@Body() params: any, @Req() req) {
-    return this.episodesService.findWithfilter(params, req.cookies.token);
+  @Post('findWithFilter')
+  public findWithFilter(@Body() params: any, @Req() req) {
+    return this.episodesService.findWithFilter(params, req.cookies.token);
   }
 
   @Public()

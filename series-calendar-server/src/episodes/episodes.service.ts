@@ -33,7 +33,7 @@ export class EpisodesService {
     return this.serialService.addEpisodesId(serialId, episodesId);
   }
 
-  public async findWithfilter(params, token: string) {
+  public async findWithFilter(params, token: string) {
     let user = null;
     if (token) {
       user = await this.usersService.findOneByToken(token);

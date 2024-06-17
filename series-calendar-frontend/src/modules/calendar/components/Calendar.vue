@@ -25,20 +25,29 @@
           v-for="day of calendarStore.calendarData"
           :key="day?.dayInfo.dayIndex"
           :dayData="day"
+          @popup:open="setPopupData"
         />
       </div>
     </div>
+
+    <!-- <Popup v-if="false">
+      <CalendarCellPopup :dayData="popupData" />
+    </Popup> -->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { watch } from "vue";
+import { useRouter } from "vue-router";
+import { useWindowSize } from "@vueuse/core";
+
+import type { MonthsEnum, TDay } from "@/modules/calendar/types";
+import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
+
 import CalendarControl from "@/modules/calendar/components/CalendarControl.vue";
 import CalendarCell from "@/modules/calendar/components/CalendarCell.vue";
-import { useWindowSize } from "@vueuse/core";
-import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
-import { useRouter } from "vue-router";
-import type { MonthsEnum } from "@/modules/calendar/types";
+import Popup from "@/modules/common/components/Popup.vue";
+import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
 
 const MOBILE_VIEW_WIDTH = 640;
 
@@ -51,7 +60,6 @@ const {
 } = useCalendarStore();
 
 const calendarStore = useCalendarStore();
-
 const router = useRouter();
 
 watch(
@@ -77,6 +85,13 @@ watch(width, () => {
     setExpandCalendarOff();
   }
 });
+
+// Day popup
+const popupData = null;
+
+const setPopupData = (payload: TDay) => {
+  console.log("-->", payload);
+};
 </script>
 
 <style scoped>
