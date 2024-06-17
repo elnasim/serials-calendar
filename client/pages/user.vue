@@ -1,0 +1,1 @@
+<template>    <UserProfile /></template><script setup lang="ts">import UserProfile from "~/appModules/user/components/UserProfile.vue";</script><style scoped lang="scss"></style>

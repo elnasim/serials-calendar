@@ -1,0 +1,1 @@
+import type {ISerial} from "~/appModules/serials/types/SerialsTypes";export interface IUserProfile {    email: string;    favoriteSerials: ISerial[];    isEmailConfirmed: boolean;}

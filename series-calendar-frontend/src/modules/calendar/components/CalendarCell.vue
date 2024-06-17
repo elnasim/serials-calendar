@@ -1,5 +1,5 @@
 <template>
-  <div class="p-1" @click="showPopup">
+  <div class="p-1" @click="$emit('popup:open', dayData)">
     <div
       class="w-full h-full relative bg-color-2 rounded-2xl overflow-hidden"
       :class="props.dayData.content?.length && 'cursor-pointer'"
@@ -34,10 +34,6 @@
         </div>
       </div>
     </div>
-
-    <Popup v-model="isShowPopup">
-      <CalendarCellPopup :dayData="serializeData" />
-    </Popup>
   </div>
 </template>
 
@@ -45,8 +41,6 @@
 import { computed, ref } from "vue";
 import dateHelper from "@/modules/common/helpers/DateHelper";
 import type { TDay } from "@/modules/calendar/types";
-import Popup from "@/modules/common/components/Popup.vue";
-import CalendarCellPopup from "@/modules/calendar/components/CalendarCellPopup.vue";
 import type { ISerialEpisodeWithSerialInfo } from "@/modules/calendar/types";
 import { useCalendarStore } from "@/modules/calendar/useCalendarStore";
 

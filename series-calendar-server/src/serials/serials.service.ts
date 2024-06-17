@@ -14,7 +14,7 @@ export class SerialsService {
   /**
    * Создаёт новый сериал.
    */
-  public async create(createSerialDto: CreateSerialDto): Promise<Serial> {
+  public async create(createSerialDto: CreateSerialDto) {
     try {
       const createdSerial = await this.serialModel.create(createSerialDto);
       return createdSerial;
@@ -59,6 +59,13 @@ export class SerialsService {
         },
       },
     });
+  }
+
+  /**
+   * Возвращает сериал по названию.
+   */
+  public findOneByTitle(title: string) {
+    return this.serialModel.findOne({ title }).exec();
   }
 
   /**

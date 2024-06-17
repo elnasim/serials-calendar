@@ -1,0 +1,1 @@
+const config = useRuntimeConfig();class UserService {    public async getProfile() {        // @ts-ignore        const data = await $fetch(config.apiUrl + '/users/profile', {            method: "GET",        });        return data;    }}const userService = new UserService();export default userService;
